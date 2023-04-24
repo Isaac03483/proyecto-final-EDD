@@ -2,6 +2,7 @@ package com.mio.gui;
 
 
 import com.mio.controllers.MainController;
+import com.mio.utils.LineNumber;
 
 import javax.swing.*;
 
@@ -15,6 +16,8 @@ public class MainFrame extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.controller = new MainController(this);
+        LineNumber lineNumber = new LineNumber(this.contentArea);
+        jScrollPane1.setRowHeaderView(lineNumber);
     }
 
     public JTextArea getContentArea() {

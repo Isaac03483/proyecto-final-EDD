@@ -8,7 +8,7 @@ import static com.mio.compiler.parser.EstructuraParserSym.*;
 %%
 
 %public
-%class EstructuraLexer
+%class CargaLexer
 %unicode
 %line
 %column
@@ -30,11 +30,8 @@ import static com.mio.compiler.parser.EstructuraParserSym.*;
 %eofval}
 %eofclose
 
-ESTRUCTURA = "estructura"
 LBRACE = "<"
 RBRACE = ">"
-TABLA = "tabla"
-CLAVE = "clave"
 NAME = .+
 DIAGONAL = "/"
 
@@ -42,9 +39,6 @@ DIAGONAL = "/"
 
 <YYINITIAL> {
 
-    {ESTRUCTURA}                            {return symbolWithoutValue(ESTRUCTURA);}
-    {CLAVE}                                 {return symbolWithoutValue(CLAVE);}
-    {TABLA}                                 {return symbolWithoutValue(TABLA);}
     {DIAGONAL}                              {return symbolWithoutValue(DIAGONAL);}
     {LBRACE}                                {return symbolWithoutValue(LBRACE);}
     {RBRACE}                                {return symbolWithoutValue(RBRACE);}

@@ -1,0 +1,74 @@
+package com.mio.compiler.parser;
+
+class EstructuraParser;
+
+parser code{:
+
+    public EstructuraParser(EstructuraLexer lexer){
+
+        super(lexer);
+    }
+:}
+
+terminal Token ESTRUCTURA, TABLA, LBRACE, RBRACE, CLAVE, NAME, DIAGONAL;
+
+non terminal main, structs, struct, structProd, attribute, lTable, rTable;
+non terminal lKey, rKey, lName, rName, lStruct, rStruct;
+
+start with main;
+
+main
+::=	structs
+	;
+
+structs
+::=	structs struct
+	| struct
+	;
+
+struct
+::=	lStruct structProd rStruct
+	;
+
+structProd
+::=	structProd attribute
+	attribute
+	;
+
+attribute
+::=	lTable NAME rTable
+	| lName NAME rName
+	| lKey NAME rKey
+	;
+
+lStruct
+::= LBRACE ESTRUCTURA RBRACE
+    ;
+
+rStruct
+::= LBRACE DIAGONAL ESTRUCTURA RBRACE
+    ;
+
+lName
+::= LBRACE NAME RBRACE
+    ;
+
+rName
+::= LBRACE DIAGONAL NAME RBRACE
+    ;
+
+lKey
+::= LBRACE CLAVE RBRACE
+    ;
+
+rKey
+::= LBRACE DIAGONAL CLAVE RBRACE
+    ;
+
+lTable
+::= LBRACE TABLA RBRACE
+    ;
+
+rTable
+::= LBRACE DIAGONAL TABLA RBRACE
+    ;
