@@ -1,8 +1,11 @@
 package com.mio.compiler.lexer;
 
+/*
+java -jar jflex-full-1.9.0.jar /home/mio/Escritorio/2023/EDD/proyecto-final-EDD/src/main/jflex/Estructura.jflex
+*/
 import com.mio.compiler.Token;
 import java_cup.runtime.Symbol;
-
+import com.mio.compiler.parser.EstructuraParserSym;
 import static com.mio.compiler.parser.EstructuraParserSym.*;
 
 %%
@@ -17,10 +20,12 @@ import static com.mio.compiler.parser.EstructuraParserSym.*;
 
 %{
     private Symbol symbolWithValue(int type, Object value){
+        System.out.println("Encontrando: "+value.toString()+" "+EstructuraParserSym.terminalNames[type]);
         return new Symbol(type, new Token(type, value.toString(), yyline+1, yycolumn+1 ));
     }
 
     private Symbol symbolWithoutValue(int type){
+        System.out.println("Encontrando: "+EstructuraParserSym.terminalNames[type]);
         return new Symbol(type, new Token(type, null, yyline+1, yycolumn+1 ));
     }
 
@@ -30,24 +35,49 @@ import static com.mio.compiler.parser.EstructuraParserSym.*;
 %eofval}
 %eofclose
 
+SALTO_LINEA = \r|\n|\r\n
+ESPACIO_BLANCO = {SALTO_LINEA}|[ \t\f]
 ESTRUCTURA = "estructura"
+ESTRUCTURAS = "estructuras"
+BYTE = "byte"
+SHORT = "short"
+INT = "int"
+LONG = "long"
+DOUBLE = "double"
+FLOAT = "float"
+BOOLEAN = "boolean"
+CHAR = "char"
+STRING = "String" | "string"
 LBRACE = "<"
 RBRACE = ">"
 TABLA = "tabla"
 CLAVE = "clave"
-NAME = .+
+PADRE = "padre"
+NAME = [a-zA-Z0-9_#\|!\?\"½~¬]+
 DIAGONAL = "/"
 
 %%
 
 <YYINITIAL> {
 
-    {ESTRUCTURA}                            {return symbolWithoutValue(ESTRUCTURA);}
-    {CLAVE}                                 {return symbolWithoutValue(CLAVE);}
-    {TABLA}                                 {return symbolWithoutValue(TABLA);}
-    {DIAGONAL}                              {return symbolWithoutValue(DIAGONAL);}
+    {ESPACIO_BLANCO}    {;}
     {LBRACE}                                {return symbolWithoutValue(LBRACE);}
     {RBRACE}                                {return symbolWithoutValue(RBRACE);}
+    {ESTRUCTURA}                            {return symbolWithoutValue(ESTRUCTURA);}
+    {ESTRUCTURAS}                           {return symbolWithoutValue(ESTRUCTURAS);}
+    {CLAVE}                                 {return symbolWithoutValue(CLAVE);}
+    {TABLA}                                 {return symbolWithoutValue(TABLA);}
+    {PADRE}                                 {return symbolWithoutValue(PADRE);}
+    {BYTE}                                  {return symbolWithoutValue(BYTE);}
+    {SHORT}                                 {return symbolWithoutValue(SHORT);}
+    {INT}                                   {return symbolWithoutValue(INT);}
+    {LONG}                                  {return symbolWithoutValue(LONG);}
+    {DOUBLE}                                {return symbolWithoutValue(DOUBLE);}
+    {FLOAT}                                 {return symbolWithoutValue(FLOAT);}
+    {CHAR}                                  {return symbolWithoutValue(CHAR);}
+    {BOOLEAN}                               {return symbolWithoutValue(BOOLEAN);}
+    {STRING}                                {return symbolWithoutValue(STRING);}
+    {DIAGONAL}                              {return symbolWithoutValue(DIAGONAL);}
     {NAME}                                  {return symbolWithValue(NAME, yytext());}
 
 }

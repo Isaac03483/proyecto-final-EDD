@@ -2,12 +2,12 @@ package com.mio.models.list;
 
 import com.mio.models.table.Property;
 
-public class Node {
+public class PropertyNode {
 
     private Property value;
-    private Node next;
+    private PropertyNode next;
 
-    public Node(Property value) {
+    public PropertyNode(Property value) {
         this.value = value;
     }
 
@@ -19,11 +19,11 @@ public class Node {
         this.value = value;
     }
 
-    public Node getNext() {
+    public PropertyNode getNext() {
         return next;
     }
 
-    public void setNext(Node next) {
+    public void setNext(PropertyNode next) {
         this.next = next;
     }
 }

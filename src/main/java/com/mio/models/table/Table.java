@@ -6,12 +6,21 @@ public class Table {
     private String tableName;
     private PropertyList properties;
     private String key;
+    private String parent;
     private Object rows;
 
     public Table(String tableName, PropertyList properties, String key) {
         this.tableName = tableName;
         this.properties = properties;
         this.key = key;
+        this.parent = null;
+    }
+
+    public Table(String tableName, PropertyList properties, String key, String parent) {
+        this.tableName = tableName;
+        this.properties = properties;
+        this.key = key;
+        this.parent = parent;
     }
 
     public String getTableName() {
@@ -36,5 +45,13 @@ public class Table {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public String getParent() {
+        return parent;
+    }
+
+    public void setParent(String parent) {
+        this.parent = parent;
     }
 }

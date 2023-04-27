@@ -8,25 +8,47 @@ package com.mio.compiler.parser;
 /** CUP generated class containing symbol constants. */
 public class EstructuraParserSym {
   /* terminals */
-  public static final int LBRACE = 4;
-  public static final int ESTRUCTURA = 2;
+  public static final int LONG = 14;
+  public static final int PADRE = 10;
+  public static final int RBRACE = 6;
+  public static final int INT = 13;
+  public static final int CHAR = 18;
+  public static final int BYTE = 11;
+  public static final int NAME = 8;
+  public static final int LBRACE = 5;
+  public static final int CLAVE = 7;
+  public static final int BOOLEAN = 17;
+  public static final int STRING = 19;
+  public static final int TABLA = 4;
+  public static final int FLOAT = 16;
   public static final int EOF = 0;
-  public static final int CLAVE = 6;
-  public static final int DIAGONAL = 8;
+  public static final int ESTRUCTURAS = 3;
   public static final int error = 1;
-  public static final int TABLA = 3;
-  public static final int RBRACE = 5;
-  public static final int NAME = 7;
+  public static final int DIAGONAL = 9;
+  public static final int SHORT = 12;
+  public static final int DOUBLE = 15;
+  public static final int ESTRUCTURA = 2;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
   "ESTRUCTURA",
+  "ESTRUCTURAS",
   "TABLA",
   "LBRACE",
   "RBRACE",
   "CLAVE",
   "NAME",
-  "DIAGONAL"
+  "DIAGONAL",
+  "PADRE",
+  "BYTE",
+  "SHORT",
+  "INT",
+  "LONG",
+  "DOUBLE",
+  "FLOAT",
+  "BOOLEAN",
+  "CHAR",
+  "STRING"
   };
 }
 

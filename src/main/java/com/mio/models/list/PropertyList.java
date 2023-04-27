@@ -4,13 +4,13 @@ import com.mio.models.table.Property;
 
 public class PropertyList {
 
-    private Node first;
+    private PropertyNode first;
 
     public PropertyList() {
     }
 
     public void add(Property value){
-        Node node = new Node(value);
+        PropertyNode node = new PropertyNode(value);
         if(this.first == null){
             this.first = node;
             return;
@@ -19,7 +19,7 @@ public class PropertyList {
         add(this.first, node);
     }
 
-    private void add(Node currentNode, Node node) {
+    private void add(PropertyNode currentNode, PropertyNode node) {
         if(currentNode.getValue() == node.getValue()){
             throw new RuntimeException("No puede agregar propiedades con el mismo nombre");
         }

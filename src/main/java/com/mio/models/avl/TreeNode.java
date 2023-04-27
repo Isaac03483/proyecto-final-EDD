@@ -7,10 +7,29 @@ public class TreeNode {
     private Table value;
     private TreeNode left;
     private TreeNode right;
+    private TreeNode father;
     private int balanceFactor;
 
     public TreeNode(Table value) {
         this.value = value;
+    }
+
+    public void simpleLeft(){
+
+
+
+    }
+
+    public void simpleRight(){
+
+    }
+
+    public void doubleLeft(){
+
+    }
+
+    public void doubleRight(){
+
     }
 
     public int getHeight(){
@@ -36,6 +55,20 @@ public class TreeNode {
     }
 
 
+    public int getBalanceFactor() {
+        int leftValue = 0;
+        int rightValue = 0;
+        if(this.left != null){
+            leftValue = this.left.getHeight();
+        }
+
+        if(this.right != null){
+            rightValue = this.right.getHeight();
+        }
+
+        balanceFactor = rightValue-leftValue;
+        return balanceFactor;
+    }
 
     public Table getValue() {
         return value;
@@ -59,5 +92,13 @@ public class TreeNode {
 
     public void setRight(TreeNode right) {
         this.right = right;
+    }
+
+    public TreeNode getFather() {
+        return father;
+    }
+
+    public void setFather(TreeNode father) {
+        this.father = father;
     }
 }

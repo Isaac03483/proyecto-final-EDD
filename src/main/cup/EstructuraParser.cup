@@ -1,4 +1,8 @@
 package com.mio.compiler.parser;
+/*
+java -jar java-cup-11b.jar /home/mio/Escritorio/2023/EDD/proyecto-final-EDD/src/main/cup/EstructuraParser.cup
+*/
+import com.mio.compiler.lexer.EstructuraLexer;
 
 class EstructuraParser;
 
@@ -10,15 +14,16 @@ parser code{:
     }
 :}
 
-terminal Token ESTRUCTURA, TABLA, LBRACE, RBRACE, CLAVE, NAME, DIAGONAL;
+terminal Token ESTRUCTURA, ESTRUCTURAS, TABLA, LBRACE, RBRACE, CLAVE, NAME, DIAGONAL, PADRE;
+terminal Token BYTE, SHORT, INT, LONG, DOUBLE, FLOAT, BOOLEAN, CHAR, STRING;
 
-non terminal main, structs, struct, structProd, attribute, lTable, rTable;
-non terminal lKey, rKey, lName, rName, lStruct, rStruct;
+non terminal main, structs, struct, structProd, attribute, lTable, rTable, type;
+non terminal lKey, rKey, lName, rName, lStruct, rStruct, lStructs, rStructs, lParent, rParent;
 
 start with main;
 
 main
-::=	structs
+::=	lStructs structs rStructs
 	;
 
 structs
@@ -32,14 +37,27 @@ struct
 
 structProd
 ::=	structProd attribute
-	attribute
+	| attribute
 	;
 
 attribute
 ::=	lTable NAME rTable
-	| lName NAME rName
+	| lName type rName
 	| lKey NAME rKey
+	| lParent NAME rParent
 	;
+
+type
+::= BYTE
+    | SHORT
+    | INT
+    | LONG
+    | DOUBLE
+    | FLOAT
+    | BOOLEAN
+    | CHAR
+    | STRING
+    ;
 
 lStruct
 ::= LBRACE ESTRUCTURA RBRACE
@@ -47,6 +65,14 @@ lStruct
 
 rStruct
 ::= LBRACE DIAGONAL ESTRUCTURA RBRACE
+    ;
+
+lStructs
+::= LBRACE ESTRUCTURAS RBRACE
+    ;
+
+rStructs
+::= LBRACE DIAGONAL ESTRUCTURAS RBRACE
     ;
 
 lName
@@ -71,4 +97,12 @@ lTable
 
 rTable
 ::= LBRACE DIAGONAL TABLA RBRACE
+    ;
+
+lParent
+::= LBRACE PADRE RBRACE
+    ;
+
+rParent
+::= LBRACE DIAGONAL PADRE RBRACE
     ;
