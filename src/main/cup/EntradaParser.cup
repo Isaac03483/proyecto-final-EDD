@@ -1,0 +1,55 @@
+package com.mio.compiler.parser;
+
+import com.mio.compiler.lexer.CargaLexer;
+
+
+class EntradaParser;
+
+parser code {:
+
+    public EntradaParser(CargaLexer lexer){
+
+        super(lexer);
+    }
+:}
+
+terminal Token LESS, GREATER, DIAGONAL, BYTE, SHORT, INT, FLOAT, DOUBLE, LONG, CHAR, BOOLEAN, NAME;
+
+non terminal main, attributes, value, lName, rName, string;
+
+start with main;
+
+main
+::=	lName attributes rName
+	;
+
+attributes
+::=	attributes lName value rName
+	| lName value rName
+	;
+
+value
+::= INT
+    | SHORT
+    | BYTE
+    | FLOAT
+    | DOUBLE
+    | LONG
+    | CHAR
+    | BOOLEAN
+    | string
+    ;
+
+string
+::= string NAME
+    | NAME
+    ;
+
+
+lName
+::= LESS NAME GREATER
+    ;
+
+rName
+::= LESS DIAGONAL NAME GREATER
+    ;

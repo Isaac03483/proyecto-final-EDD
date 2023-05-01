@@ -48,8 +48,8 @@ FLOAT = "float"
 BOOLEAN = "boolean"
 CHAR = "char"
 STRING = "String" | "string"
-LBRACE = "<"
-RBRACE = ">"
+LESS = "<"
+GREATER = ">"
 TABLA = "tabla"
 CLAVE = "clave"
 PADRE = "padre"
@@ -61,8 +61,8 @@ DIAGONAL = "/"
 <YYINITIAL> {
 
     {ESPACIO_BLANCO}    {;}
-    {LBRACE}                                {return symbolWithoutValue(LBRACE);}
-    {RBRACE}                                {return symbolWithoutValue(RBRACE);}
+    {LESS}                                {return symbolWithoutValue(LESS);}
+    {GREATER}                                {return symbolWithoutValue(GREATER);}
     {ESTRUCTURA}                            {return symbolWithoutValue(ESTRUCTURA);}
     {ESTRUCTURAS}                           {return symbolWithoutValue(ESTRUCTURAS);}
     {CLAVE}                                 {return symbolWithoutValue(CLAVE);}

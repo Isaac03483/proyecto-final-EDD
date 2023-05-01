@@ -1,11 +1,9 @@
 package com.mio.utils;
 
-import com.mio.models.btree.DictionaryPair;
-
 public class Sort {
-
-    public static void bubbleSort(DictionaryPair[] dictionaryPairs, int fromIndex, int toIndex){
 /*
+    public static void bubbleSort(DictionaryPair[] dictionaryPairs, int fromIndex, int toIndex){
+
         for(int i = fromIndex; i < toIndex; i++){
             if(dictionaryPairs[i].compareTo(dictionaryPairs[i+1]) > 0){
                 DictionaryPair temp = dictionaryPairs[i+1];
@@ -13,14 +11,15 @@ public class Sort {
                 dictionaryPairs[i] = temp;
             }
         }
-*/
+
     }
 
     public static void bubbleSort(DictionaryPair[] dictionaryPairs){
-        /*
+
         for(int i = 0; i < dictionaryPairs.length; i++){
             if(dictionaryPairs)
-        }*/
+        }
     }
 
+ */
 }

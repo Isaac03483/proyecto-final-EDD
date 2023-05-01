@@ -14,10 +14,10 @@ parser code{:
     }
 :}
 
-terminal Token ESTRUCTURA, ESTRUCTURAS, TABLA, LBRACE, RBRACE, CLAVE, NAME, DIAGONAL, PADRE;
+terminal Token ESTRUCTURA, ESTRUCTURAS, TABLA, LESS, GREATER, CLAVE, NAME, DIAGONAL, PADRE;
 terminal Token BYTE, SHORT, INT, LONG, DOUBLE, FLOAT, BOOLEAN, CHAR, STRING;
 
-non terminal main, structs, struct, structProd, attribute, lTable, rTable, type;
+non terminal main, structs, struct, properties, lTable, rTable, type;
 non terminal lKey, rKey, lName, rName, lStruct, rStruct, lStructs, rStructs, lParent, rParent;
 
 start with main;
@@ -32,19 +32,22 @@ structs
 	;
 
 struct
-::=	lStruct structProd rStruct
+::=	lStruct
+    lTable NAME rTable
+    properties
+    lKey NAME rKey
+    lParent NAME rParent
+    rStruct
+    | lStruct
+      lTable NAME rTable
+      properties
+      lKey NAME rKey
+      rStruct
 	;
 
-structProd
-::=	structProd attribute
-	| attribute
-	;
-
-attribute
-::=	lTable NAME rTable
+properties
+::=	properties lName type rName
 	| lName type rName
-	| lKey NAME rKey
-	| lParent NAME rParent
 	;
 
 type
@@ -56,53 +59,53 @@ type
     | FLOAT
     | BOOLEAN
     | CHAR
-    | STRING
+    | STRING                                                {:RESULT = PropertyType.STRING;:}
     ;
 
 lStruct
-::= LBRACE ESTRUCTURA RBRACE
+::= LESS ESTRUCTURA GREATER
     ;
 
 rStruct
-::= LBRACE DIAGONAL ESTRUCTURA RBRACE
+::= LESS DIAGONAL ESTRUCTURA GREATER
     ;
 
 lStructs
-::= LBRACE ESTRUCTURAS RBRACE
+::= LESS ESTRUCTURAS GREATER
     ;
 
 rStructs
-::= LBRACE DIAGONAL ESTRUCTURAS RBRACE
+::= LESS DIAGONAL ESTRUCTURAS GREATER
     ;
 
 lName
-::= LBRACE NAME RBRACE
+::= LESS NAME GREATER
     ;
 
 rName
-::= LBRACE DIAGONAL NAME RBRACE
+::= LESS DIAGONAL NAME GREATER
     ;
 
 lKey
-::= LBRACE CLAVE RBRACE
+::= LESS CLAVE GREATER
     ;
 
 rKey
-::= LBRACE DIAGONAL CLAVE RBRACE
+::= LESS DIAGONAL CLAVE GREATER
     ;
 
 lTable
-::= LBRACE TABLA RBRACE
+::= LESS TABLA GREATER
     ;
 
 rTable
-::= LBRACE DIAGONAL TABLA RBRACE
+::= LESS DIAGONAL TABLA GREATER
     ;
 
 lParent
-::= LBRACE PADRE RBRACE
+::= LESS PADRE GREATER
     ;
 
 rParent
-::= LBRACE DIAGONAL PADRE RBRACE
+::= LESS DIAGONAL PADRE GREATER
     ;

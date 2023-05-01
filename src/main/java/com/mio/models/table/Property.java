@@ -2,7 +2,15 @@ package com.mio.models.table;
 
 import java.util.Objects;
 
-public record Property(String propertyName, PropertyType propertyType) {
+public class Property {
+
+    public String propertyName;
+    public PropertyType propertyType;
+
+    public Property(String propertyName, PropertyType propertyType) {
+        this.propertyName = propertyName;
+        this.propertyType = propertyType;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -11,15 +19,11 @@ public record Property(String propertyName, PropertyType propertyType) {
 
         Property property = (Property) o;
 
-        if (!Objects.equals(propertyName, property.propertyName))
-            return false;
-        return propertyType == property.propertyType;
+        return Objects.equals(propertyName, property.propertyName);
     }
 
     @Override
     public int hashCode() {
-        int result = propertyName != null ? propertyName.hashCode() : 0;
-        result = 31 * result + (propertyType != null ? propertyType.hashCode() : 0);
-        return result;
+        return propertyName != null ? propertyName.hashCode() : 0;
     }
 }

@@ -1,57 +1,52 @@
 package com.mio.models.table;
 
-import com.mio.models.list.PropertyList;
+import com.mio.models.list.List;
+
+import java.util.Objects;
 
 public class Table {
-    private String tableName;
-    private PropertyList properties;
-    private String key;
-    private String parent;
-    private Object rows;
 
-    public Table(String tableName, PropertyList properties, String key) {
+    public String tableName;
+    public List<Property> properties;
+    public String key;
+    public String parentName;
+    public Object rows;
+
+    public Table(String tableName, List<Property> properties, String key, String parentName) {
         this.tableName = tableName;
         this.properties = properties;
         this.key = key;
-        this.parent = null;
+        this.parentName = parentName;
+        this.rows = null;
     }
 
-    public Table(String tableName, PropertyList properties, String key, String parent) {
+    public Table(String tableName, List<Property> properties, String key) {
         this.tableName = tableName;
         this.properties = properties;
         this.key = key;
-        this.parent = parent;
+        this.parentName = null;
     }
 
-    public String getTableName() {
-        return tableName;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Table table = (Table) o;
+
+        return Objects.equals(tableName, table.tableName);
     }
 
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
+    @Override
+    public int hashCode() {
+        return tableName != null ? tableName.hashCode() : 0;
     }
 
-    public PropertyList getProperties() {
-        return properties;
-    }
-
-    public void setProperties(PropertyList properties) {
-        this.properties = properties;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    public String getParent() {
-        return parent;
-    }
-
-    public void setParent(String parent) {
-        this.parent = parent;
+    @Override
+    public String toString() {
+        return "Table{" +
+                "tableName='" + tableName + '\'' +
+                ", key='" + key + '\'' +
+                '}';
     }
 }

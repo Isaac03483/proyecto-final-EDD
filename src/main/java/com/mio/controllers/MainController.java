@@ -1,7 +1,6 @@
 package com.mio.controllers;
 
 import com.mio.gui.MainFrame;
-import com.mio.handlers.EParserHandler;
 
 import javax.swing.JFileChooser;
 import java.io.*;
@@ -50,12 +49,13 @@ public class MainController implements Runnable{
             switch (fileName){
                 case "Estructura.xml"-> {
                     System.out.println("Parseando estructuras...");
-                    EParserHandler eParserHandler = new EParserHandler();
+                    EstParserController eParserHandler = new EstParserController();
                     eParserHandler.compile(content.toString());
                 }
                 case "entrada.dat" -> {
                     System.out.println("Parseando entrada...");
-
+                    EntParserController entParserController = new EntParserController();
+                    entParserController.compile(content.toString());
                 }
                 case "elimina.dat" -> {
                     System.out.println("Parseando eliminacion...");

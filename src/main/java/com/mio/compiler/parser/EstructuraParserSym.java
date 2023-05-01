@@ -10,12 +10,11 @@ public class EstructuraParserSym {
   /* terminals */
   public static final int LONG = 14;
   public static final int PADRE = 10;
-  public static final int RBRACE = 6;
   public static final int INT = 13;
   public static final int CHAR = 18;
   public static final int BYTE = 11;
   public static final int NAME = 8;
-  public static final int LBRACE = 5;
+  public static final int GREATER = 6;
   public static final int CLAVE = 7;
   public static final int BOOLEAN = 17;
   public static final int STRING = 19;
@@ -26,6 +25,7 @@ public class EstructuraParserSym {
   public static final int error = 1;
   public static final int DIAGONAL = 9;
   public static final int SHORT = 12;
+  public static final int LESS = 5;
   public static final int DOUBLE = 15;
   public static final int ESTRUCTURA = 2;
   public static final String[] terminalNames = new String[] {
@@ -34,8 +34,8 @@ public class EstructuraParserSym {
   "ESTRUCTURA",
   "ESTRUCTURAS",
   "TABLA",
-  "LBRACE",
-  "RBRACE",
+  "LESS",
+  "GREATER",
   "CLAVE",
   "NAME",
   "DIAGONAL",
