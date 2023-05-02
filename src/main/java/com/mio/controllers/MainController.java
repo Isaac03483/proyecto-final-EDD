@@ -1,6 +1,7 @@
 package com.mio.controllers;
 
 import com.mio.gui.MainFrame;
+import com.mio.models.abbTree.Tree;
 
 import javax.swing.JFileChooser;
 import java.io.*;
@@ -51,6 +52,7 @@ public class MainController implements Runnable{
                     System.out.println("Parseando estructuras...");
                     EstParserController eParserHandler = new EstParserController();
                     eParserHandler.compile(content.toString());
+                    Tree.getInstance().print();
                 }
                 case "entrada.dat" -> {
                     System.out.println("Parseando entrada...");
@@ -68,7 +70,6 @@ public class MainController implements Runnable{
                     System.out.println("No se reconoce el documento: "+fileName);
                 }
             }
-
 
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);

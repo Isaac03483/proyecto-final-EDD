@@ -5,8 +5,17 @@ import com.mio.models.table.Table;
 public class Tree {
 
     Node<Table> root;
+    public static Tree tree;
 
-    public Tree() {
+    private Tree() {
+    }
+
+    public static Tree getInstance(){
+        if(tree == null){
+            tree = new Tree();
+        }
+
+        return tree;
     }
 
     public boolean add(Table table){
@@ -42,7 +51,29 @@ public class Tree {
         return add(currentNode.rightChildren, node);
     }
 
+    public boolean findParent(String parentName){
+        return findParent(this.root, parentName);
+    }
+
+    private boolean findParent(Node<Table> currentNode, String parentName){
+        if(currentNode == null){
+            return false;
+        }
+
+        if(currentNode.value.tableName.equals(parentName)){
+            return true;
+        }
+
+        if(currentNode.value.tableName.compareTo(parentName) < 0){
+            return findParent(currentNode.rightChildren, parentName);
+        }
+
+        return findParent(currentNode.leftChildren, parentName);
+
+    }
+
     public void print(){
+        System.out.println("IMPRIMIENDO VALORES DEL ARBOL");
         inOrder(this.root);
     }
 

@@ -5,8 +5,13 @@
 
 package com.mio.compiler.parser;
 
+import com.mio.compiler.Token;
 import com.mio.compiler.lexer.EstructuraLexer;
+import com.mio.models.abbTree.Tree;
+import com.mio.models.list.List;
+import com.mio.models.table.Property;
 import com.mio.models.table.PropertyType;
+import com.mio.models.table.Table;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -34,13 +39,13 @@ public class EstructuraParser extends java_cup.runtime.lr_parser {
     unpackFromStrings(new String[] {
     "\000\035\000\002\002\004\000\002\002\005\000\002\003" +
     "\004\000\002\003\003\000\002\004\016\000\002\004\013" +
-    "\000\002\005\006\000\002\005\005\000\002\010\003\000" +
-    "\002\010\003\000\002\010\003\000\002\010\003\000\002" +
-    "\010\003\000\002\010\003\000\002\010\003\000\002\010" +
-    "\003\000\002\010\003\000\002\015\005\000\002\016\006" +
-    "\000\002\017\005\000\002\020\006\000\002\013\005\000" +
-    "\002\014\006\000\002\011\005\000\002\012\006\000\002" +
-    "\006\005\000\002\007\006\000\002\021\005\000\002\022" +
+    "\000\002\020\006\000\002\020\005\000\002\022\003\000" +
+    "\002\022\003\000\002\022\003\000\002\022\003\000\002" +
+    "\022\003\000\002\022\003\000\002\022\003\000\002\022" +
+    "\003\000\002\022\003\000\002\012\005\000\002\013\006" +
+    "\000\002\014\005\000\002\015\006\000\002\021\005\000" +
+    "\002\011\006\000\002\007\005\000\002\010\006\000\002" +
+    "\005\005\000\002\006\006\000\002\016\005\000\002\017" +
     "\006" });
 
   /** Access to production table. */
@@ -97,28 +102,28 @@ public class EstructuraParser extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\116\000\006\002\003\017\004\001\001\000\002\001" +
-    "\001\000\010\003\010\004\013\015\011\001\001\000\002" +
+    "\000\116\000\006\002\003\014\004\001\001\000\002\001" +
+    "\001\000\010\003\010\004\013\012\011\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\010\004" +
-    "\112\015\011\020\113\001\001\000\004\006\016\001\001" +
+    "\112\012\011\015\113\001\001\000\004\005\016\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\002\001\001\000\004\007\024\001\001\000" +
-    "\002\001\001\000\006\005\025\013\027\001\001\000\006" +
-    "\011\051\013\053\001\001\000\002\001\001\000\004\010" +
+    "\001\001\000\002\001\001\000\004\006\024\001\001\000" +
+    "\002\001\001\000\006\020\025\021\027\001\001\000\006" +
+    "\007\051\021\053\001\001\000\002\001\001\000\004\022" +
     "\035\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\002\001\001\000\002\001\001\000\004\014" +
+    "\001\001\000\002\001\001\000\002\001\001\000\004\011" +
     "\042\001\001\000\002\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\002\001\001\000\004\010\054\001\001\000\004\014\055" +
+    "\002\001\001\000\004\022\054\001\001\000\004\011\055" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\004\012\062\001\001\000\002\001\001\000\006" +
-    "\016\065\021\063\001\001\000\002\001\001\000\002\001" +
+    "\001\000\004\010\062\001\001\000\002\001\001\000\006" +
+    "\013\065\016\063\001\001\000\002\001\001\000\002\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\004\022\075\001\001\000\002\001\001\000\004\016\077" +
+    "\004\017\075\001\001\000\002\001\001\000\004\013\077" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
@@ -164,9 +169,11 @@ public class EstructuraParser extends java_cup.runtime.lr_parser {
 
 
 
-    public EstructuraParser(EstructuraLexer lexer){
+    List<String> errorMessages;
+    public EstructuraParser(EstructuraLexer lexer, List<String> errorMessages){
 
         super(lexer);
+        this.errorMessages = errorMessages;
     }
 
 
@@ -239,7 +246,44 @@ class CUP$EstructuraParser$actions {
           case 4: // struct ::= lStruct lTable NAME rTable properties lKey NAME rKey lParent NAME rParent rStruct 
             {
               Object RESULT =null;
+		int tableNameleft = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-9)).left;
+		int tableNameright = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-9)).right;
+		Token tableName = (Token)((java_cup.runtime.Symbol) CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-9)).value;
+		int listleft = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-7)).left;
+		int listright = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-7)).right;
+		List<Property> list = (List<Property>)((java_cup.runtime.Symbol) CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-7)).value;
+		int keyNameleft = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-5)).left;
+		int keyNameright = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-5)).right;
+		Token keyName = (Token)((java_cup.runtime.Symbol) CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-5)).value;
+		int parentNameleft = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)).left;
+		int parentNameright = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)).right;
+		Token parentName = (Token)((java_cup.runtime.Symbol) CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)).value;
+		
+        if(list.hasDuplicates()){
+            errorMessages.add("No se pudo crear la estructura, contiene propiedades duplicadas.");
+        } else {
+            Property key = new Property(keyName.getValue(), null);
+            Property isIn = list.find(key);
 
+            if(isIn == null){
+                errorMessages.add("No se pudo crear la estructura, no se encontró la llave: "+keyName.getValue());
+            } else {
+
+                if(!Tree.getInstance().findParent(parentName.getValue())){
+                    errorMessages.add("No se pudo crear la estructura, no se encontró el padre: "+parentName.getValue());
+
+                } else {
+
+                    Table table = new Table(tableName.getValue(),list, keyName.getValue(), parentName.getValue());
+
+                    if(!Tree.getInstance().add(table)){
+                        errorMessages.add("No se pudo agregar la estructura, ya existe una con ese nombre.");
+                    }
+                }
+
+            }
+        }
+    
               CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("struct",2, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-11)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
             }
           return CUP$EstructuraParser$result;
@@ -248,7 +292,33 @@ class CUP$EstructuraParser$actions {
           case 5: // struct ::= lStruct lTable NAME rTable properties lKey NAME rKey rStruct 
             {
               Object RESULT =null;
+		int tableNameleft = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-6)).left;
+		int tableNameright = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-6)).right;
+		Token tableName = (Token)((java_cup.runtime.Symbol) CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-6)).value;
+		int listleft = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-4)).left;
+		int listright = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-4)).right;
+		List<Property> list = (List<Property>)((java_cup.runtime.Symbol) CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-4)).value;
+		int keyNameleft = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)).left;
+		int keyNameright = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)).right;
+		Token keyName = (Token)((java_cup.runtime.Symbol) CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)).value;
+		
+        if(list.hasDuplicates()){
+            errorMessages.add("No se pudo crear la estructura, contiene propiedades duplicadas.");
+        } else {
+            Property key = new Property(keyName.getValue(), null);
+            Property isIn = list.find(key);
 
+            if(isIn == null){
+                errorMessages.add("No se pudo crear la estructura, no se encontró la llave: "+keyName.getValue());
+            } else {
+                Table table = new Table(tableName.getValue(),list, keyName.getValue());
+
+                if(!Tree.getInstance().add(table)){
+                    errorMessages.add("No se pudo agregar la estructura, ya existe una con ese nombre.");
+                }
+            }
+        }
+    
               CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("struct",2, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-8)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
             }
           return CUP$EstructuraParser$result;
@@ -256,99 +326,114 @@ class CUP$EstructuraParser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 6: // properties ::= properties lName type rName 
             {
-              Object RESULT =null;
-
-              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("properties",3, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-3)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
+              List<Property> RESULT =null;
+		int listleft = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-3)).left;
+		int listright = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-3)).right;
+		List<Property> list = (List<Property>)((java_cup.runtime.Symbol) CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-3)).value;
+		int propertyNameleft = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)).left;
+		int propertyNameright = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)).right;
+		String propertyName = (String)((java_cup.runtime.Symbol) CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)).value;
+		int propertyTypeleft = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-1)).left;
+		int propertyTyperight = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-1)).right;
+		PropertyType propertyType = (PropertyType)((java_cup.runtime.Symbol) CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-1)).value;
+		RESULT = list; RESULT.add(new Property(propertyName,  propertyType));
+              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("properties",14, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-3)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
             }
           return CUP$EstructuraParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 7: // properties ::= lName type rName 
             {
-              Object RESULT =null;
-
-              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("properties",3, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
+              List<Property> RESULT =null;
+		int propertyNameleft = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)).left;
+		int propertyNameright = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)).right;
+		String propertyName = (String)((java_cup.runtime.Symbol) CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)).value;
+		int propertyTypeleft = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-1)).left;
+		int propertyTyperight = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-1)).right;
+		PropertyType propertyType = (PropertyType)((java_cup.runtime.Symbol) CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-1)).value;
+		RESULT = new List<>(); RESULT.add(new Property(propertyName, propertyType));
+              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("properties",14, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
             }
           return CUP$EstructuraParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 8: // type ::= BYTE 
             {
-              Object RESULT =null;
-
-              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("type",6, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
+              PropertyType RESULT =null;
+		RESULT = PropertyType.BYTE;
+              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("type",16, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
             }
           return CUP$EstructuraParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 9: // type ::= SHORT 
             {
-              Object RESULT =null;
-
-              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("type",6, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
+              PropertyType RESULT =null;
+		RESULT = PropertyType.SHORT;
+              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("type",16, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
             }
           return CUP$EstructuraParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 10: // type ::= INT 
             {
-              Object RESULT =null;
-
-              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("type",6, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
+              PropertyType RESULT =null;
+		RESULT = PropertyType.INT;
+              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("type",16, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
             }
           return CUP$EstructuraParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 11: // type ::= LONG 
             {
-              Object RESULT =null;
-
-              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("type",6, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
+              PropertyType RESULT =null;
+		RESULT = PropertyType.LONG;
+              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("type",16, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
             }
           return CUP$EstructuraParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 12: // type ::= DOUBLE 
             {
-              Object RESULT =null;
-
-              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("type",6, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
+              PropertyType RESULT =null;
+		RESULT = PropertyType.DOUBLE;
+              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("type",16, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
             }
           return CUP$EstructuraParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 13: // type ::= FLOAT 
             {
-              Object RESULT =null;
-
-              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("type",6, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
+              PropertyType RESULT =null;
+		RESULT = PropertyType.FLOAT;
+              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("type",16, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
             }
           return CUP$EstructuraParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 14: // type ::= BOOLEAN 
             {
-              Object RESULT =null;
-
-              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("type",6, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
+              PropertyType RESULT =null;
+		RESULT = PropertyType.BOOLEAN;
+              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("type",16, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
             }
           return CUP$EstructuraParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 15: // type ::= CHAR 
             {
-              Object RESULT =null;
-
-              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("type",6, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
+              PropertyType RESULT =null;
+		RESULT = PropertyType.CHAR;
+              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("type",16, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
             }
           return CUP$EstructuraParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 16: // type ::= STRING 
             {
-              Object RESULT =null;
+              PropertyType RESULT =null;
 		RESULT = PropertyType.STRING;
-              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("type",6, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
+              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("type",16, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
             }
           return CUP$EstructuraParser$result;
 
@@ -357,7 +442,7 @@ class CUP$EstructuraParser$actions {
             {
               Object RESULT =null;
 
-              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("lStruct",11, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
+              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("lStruct",8, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
             }
           return CUP$EstructuraParser$result;
 
@@ -366,7 +451,7 @@ class CUP$EstructuraParser$actions {
             {
               Object RESULT =null;
 
-              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("rStruct",12, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-3)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
+              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("rStruct",9, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-3)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
             }
           return CUP$EstructuraParser$result;
 
@@ -375,7 +460,7 @@ class CUP$EstructuraParser$actions {
             {
               Object RESULT =null;
 
-              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("lStructs",13, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
+              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("lStructs",10, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
             }
           return CUP$EstructuraParser$result;
 
@@ -384,16 +469,19 @@ class CUP$EstructuraParser$actions {
             {
               Object RESULT =null;
 
-              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("rStructs",14, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-3)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
+              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("rStructs",11, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-3)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
             }
           return CUP$EstructuraParser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 21: // lName ::= LESS NAME GREATER 
             {
-              Object RESULT =null;
-
-              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("lName",9, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
+              String RESULT =null;
+		int nameleft = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-1)).left;
+		int nameright = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-1)).right;
+		Token name = (Token)((java_cup.runtime.Symbol) CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-1)).value;
+		System.out.println("Se va a subir en el árbol a: "+name.getValue());RESULT = name.getValue();
+              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("lName",15, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
             }
           return CUP$EstructuraParser$result;
 
@@ -402,7 +490,7 @@ class CUP$EstructuraParser$actions {
             {
               Object RESULT =null;
 
-              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("rName",10, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-3)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
+              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("rName",7, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-3)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
             }
           return CUP$EstructuraParser$result;
 
@@ -411,7 +499,7 @@ class CUP$EstructuraParser$actions {
             {
               Object RESULT =null;
 
-              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("lKey",7, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
+              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("lKey",5, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
             }
           return CUP$EstructuraParser$result;
 
@@ -420,7 +508,7 @@ class CUP$EstructuraParser$actions {
             {
               Object RESULT =null;
 
-              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("rKey",8, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-3)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
+              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("rKey",6, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-3)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
             }
           return CUP$EstructuraParser$result;
 
@@ -429,7 +517,7 @@ class CUP$EstructuraParser$actions {
             {
               Object RESULT =null;
 
-              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("lTable",4, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
+              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("lTable",3, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
             }
           return CUP$EstructuraParser$result;
 
@@ -438,7 +526,7 @@ class CUP$EstructuraParser$actions {
             {
               Object RESULT =null;
 
-              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("rTable",5, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-3)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
+              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("rTable",4, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-3)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
             }
           return CUP$EstructuraParser$result;
 
@@ -447,7 +535,7 @@ class CUP$EstructuraParser$actions {
             {
               Object RESULT =null;
 
-              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("lParent",15, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
+              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("lParent",12, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
             }
           return CUP$EstructuraParser$result;
 
@@ -456,7 +544,7 @@ class CUP$EstructuraParser$actions {
             {
               Object RESULT =null;
 
-              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("rParent",16, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-3)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
+              CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("rParent",13, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-3)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
             }
           return CUP$EstructuraParser$result;
 

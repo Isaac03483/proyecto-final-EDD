@@ -2,23 +2,35 @@ package com.mio.compiler.parser;
 /*
 java -jar java-cup-11b.jar /home/mio/Escritorio/2023/EDD/proyecto-final-EDD/src/main/cup/EstructuraParser.cup
 */
+import com.mio.compiler.Token;
 import com.mio.compiler.lexer.EstructuraLexer;
+import com.mio.models.abbTree.Tree;
+import com.mio.models.list.List;
+import com.mio.models.table.Property;
+import com.mio.models.table.PropertyType;
+import com.mio.models.table.Table;
+
 
 class EstructuraParser;
 
 parser code{:
 
-    public EstructuraParser(EstructuraLexer lexer){
+    List<String> errorMessages;
+    public EstructuraParser(EstructuraLexer lexer, List<String> errorMessages){
 
         super(lexer);
+        this.errorMessages = errorMessages;
     }
 :}
 
 terminal Token ESTRUCTURA, ESTRUCTURAS, TABLA, LESS, GREATER, CLAVE, NAME, DIAGONAL, PADRE;
 terminal Token BYTE, SHORT, INT, LONG, DOUBLE, FLOAT, BOOLEAN, CHAR, STRING;
 
-non terminal main, structs, struct, properties, lTable, rTable, type;
-non terminal lKey, rKey, lName, rName, lStruct, rStruct, lStructs, rStructs, lParent, rParent;
+non terminal main, structs, struct, lTable, rTable;
+non terminal lKey, rKey, rName, lStruct, rStruct, lStructs, rStructs, lParent, rParent;
+non terminal List<Property> properties;
+non terminal String lName;
+non terminal PropertyType type;
 
 start with main;
 
@@ -33,32 +45,78 @@ structs
 
 struct
 ::=	lStruct
-    lTable NAME rTable
-    properties
-    lKey NAME rKey
-    lParent NAME rParent
+    lTable NAME:tableName rTable
+    properties:list
+    lKey NAME:keyName rKey
+    lParent NAME:parentName rParent
     rStruct
+    {:
+        if(list.hasDuplicates()){
+            errorMessages.add("No se pudo crear la estructura, contiene propiedades duplicadas.");
+        } else {
+            Property key = new Property(keyName.getValue(), null);
+            Property isIn = list.find(key);
+
+            if(isIn == null){
+                errorMessages.add("No se pudo crear la estructura, no se encontró la llave: "+keyName.getValue());
+            } else {
+
+                if(!Tree.getInstance().findParent(parentName.getValue())){
+                    errorMessages.add("No se pudo crear la estructura, no se encontró el padre: "+parentName.getValue());
+
+                } else {
+
+                    Table table = new Table(tableName.getValue(),list, keyName.getValue(), parentName.getValue());
+
+                    if(!Tree.getInstance().add(table)){
+                        errorMessages.add("No se pudo agregar la estructura, ya existe una con ese nombre.");
+                    }
+                }
+
+            }
+        }
+    :}
     | lStruct
-      lTable NAME rTable
-      properties
-      lKey NAME rKey
+      lTable NAME:tableName rTable
+      properties:list
+      lKey NAME:keyName rKey
       rStruct
+    {:
+        if(list.hasDuplicates()){
+            errorMessages.add("No se pudo crear la estructura, contiene propiedades duplicadas.");
+        } else {
+            Property key = new Property(keyName.getValue(), null);
+            Property isIn = list.find(key);
+
+            if(isIn == null){
+                errorMessages.add("No se pudo crear la estructura, no se encontró la llave: "+keyName.getValue());
+            } else {
+                Table table = new Table(tableName.getValue(),list, keyName.getValue());
+
+                if(!Tree.getInstance().add(table)){
+                    errorMessages.add("No se pudo agregar la estructura, ya existe una con ese nombre.");
+                }
+            }
+        }
+    :}
 	;
 
 properties
-::=	properties lName type rName
-	| lName type rName
+::=	properties:list lName:propertyName type:propertyType rName
+    {:RESULT = list; RESULT.add(new Property(propertyName,  propertyType));:}
+	| lName:propertyName type:propertyType rName
+	{:RESULT = new List<>(); RESULT.add(new Property(propertyName, propertyType));:}
 	;
 
 type
-::= BYTE
-    | SHORT
-    | INT
-    | LONG
-    | DOUBLE
-    | FLOAT
-    | BOOLEAN
-    | CHAR
+::= BYTE                                                    {:RESULT = PropertyType.BYTE;:}
+    | SHORT                                                 {:RESULT = PropertyType.SHORT;:}
+    | INT                                                   {:RESULT = PropertyType.INT;:}
+    | LONG                                                  {:RESULT = PropertyType.LONG;:}
+    | DOUBLE                                                {:RESULT = PropertyType.DOUBLE;:}
+    | FLOAT                                                 {:RESULT = PropertyType.FLOAT;:}
+    | BOOLEAN                                               {:RESULT = PropertyType.BOOLEAN;:}
+    | CHAR                                                  {:RESULT = PropertyType.CHAR;:}
     | STRING                                                {:RESULT = PropertyType.STRING;:}
     ;
 
@@ -79,7 +137,8 @@ rStructs
     ;
 
 lName
-::= LESS NAME GREATER
+::= LESS NAME:name GREATER
+    {:System.out.println("Se va a subir en el árbol a: "+name.getValue());RESULT = name.getValue();:}
     ;
 
 rName

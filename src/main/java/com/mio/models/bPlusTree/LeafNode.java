@@ -19,7 +19,15 @@ public class LeafNode extends Node{
         this.insert(pair);
     }
 
-    private boolean insert(Pair pair) {
+    public LeafNode(int max, Pair[] pairs, InternalNode parent){
+        this.max = max-1;
+        this.min = (int) (Math.ceil(max/2.0)-1);
+        this.pairs = pairs;
+        this.degree = linearNullSearch(pairs);
+        this.parent = parent;
+    }
+
+    public boolean insert(Pair pair) {
         if(this.isFull()){
             return false;
         }
@@ -30,12 +38,9 @@ public class LeafNode extends Node{
         return true;
     }
 
-    public LeafNode(int max, Pair[] pairs, InternalNode parent){
-        this.max = max-1;
-        this.min = (int) (Math.ceil(max/2.0)-1);
-        this.pairs = pairs;
-        this.degree = linearNullSearch(pairs);
-        this.parent = parent;
+    public void delete(int index){
+        this.pairs[index] = null;
+        degree--;
     }
 
     public boolean isFull(){
