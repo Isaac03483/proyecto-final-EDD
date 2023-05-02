@@ -1,0 +1,51 @@
+package com.mio.compiler.parser;
+
+
+class ReporteParser;
+
+parser code {:
+
+    public ReporteParser(ReporteLexer lexer){
+
+        super(lexer);
+    }
+:}
+
+terminal Token LESS, GREATER, DIAGONAL, REPORTE, NAME, COMA;
+
+non terminal main, reports, report, lReport, rReport, lTables, names, rTables;
+
+start with main;
+
+main
+::=	reports
+	;
+
+reports
+::= reports lReport report rReport
+    | lReport report rReport
+    ;
+
+report
+::= lTables NAME rTables
+    ;
+
+lTables
+::= LESS names GREATER
+    ;
+
+rTables
+::= LESS DIAGONAL names GREATER
+    ;
+
+names
+::= names COMA NAME
+    | NAME
+    ;
+lReport
+::= LESS REPORTE GREATER
+    ;
+
+rReport
+::= LESS DIAGONAL REPORTE GREATER
+    ;

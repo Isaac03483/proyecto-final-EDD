@@ -138,7 +138,7 @@ rStructs
 
 lName
 ::= LESS NAME:name GREATER
-    {:System.out.println("Se va a subir en el árbol a: "+name.getValue());RESULT = name.getValue();:}
+    {:RESULT = name.getValue();:}
     ;
 
 rName

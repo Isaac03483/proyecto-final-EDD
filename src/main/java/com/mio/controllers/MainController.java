@@ -61,9 +61,13 @@ public class MainController implements Runnable{
                 }
                 case "elimina.dat" -> {
                     System.out.println("Parseando eliminacion...");
-
+                    ElmParserController elmParserController = new ElmParserController();
+                    elmParserController.compile(content.toString());
                 }
                 case "reportes.rpt" -> {
+                    System.out.println("Parseando reportes...");
+                    RepParserController repParserController = new RepParserController();
+                    repParserController.compile(content.toString());
 
                 }
                 default -> {

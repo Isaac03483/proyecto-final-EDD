@@ -480,7 +480,7 @@ class CUP$EstructuraParser$actions {
 		int nameleft = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-1)).left;
 		int nameright = ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-1)).right;
 		Token name = (Token)((java_cup.runtime.Symbol) CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-1)).value;
-		System.out.println("Se va a subir en el árbol a: "+name.getValue());RESULT = name.getValue();
+		RESULT = name.getValue();
               CUP$EstructuraParser$result = parser.getSymbolFactory().newSymbol("lName",15, ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.elementAt(CUP$EstructuraParser$top-2)), ((java_cup.runtime.Symbol)CUP$EstructuraParser$stack.peek()), RESULT);
             }
           return CUP$EstructuraParser$result;
