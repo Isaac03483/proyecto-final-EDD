@@ -2,6 +2,8 @@ package com.mio.models.bPlusTree;
 
 import com.mio.utils.Sort;
 
+import java.util.Arrays;
+
 public class LeafNode extends Node{
 
     public int max;
@@ -12,7 +14,7 @@ public class LeafNode extends Node{
     public LeafNode rightSibling;
 
     public LeafNode(int max, Pair pair){
-        this.min = max-1;
+        this.max = max-1;
         this.min = (int)(Math.ceil(max/2.0) -1);
         this.pairs = new Pair[max];
         this.degree = 0;
@@ -33,7 +35,7 @@ public class LeafNode extends Node{
         }
         this.pairs[degree] = pair;
         degree++;
-//        Sort(this.pairs, 0, degree);
+        Arrays.sort(this.pairs, 0, degree);
 
         return true;
     }

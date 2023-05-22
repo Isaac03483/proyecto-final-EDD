@@ -1,53 +1,118 @@
 package com.mio.compiler.parser;
 
+import com.mio.compiler.Token;
 import com.mio.compiler.lexer.CargaLexer;
-
+import com.mio.models.abbTree.Tree;
+import com.mio.models.list.List;
+import com.mio.models.table.*;
 
 class EntradaParser;
 
 parser code {:
 
-    public EntradaParser(CargaLexer lexer){
+    List<String> errorMessages;
+    public EntradaParser(CargaLexer lexer, List<String> errorList){
 
         super(lexer);
+        this.errorList = errorList;
+    }
+
+    public void report_error(String message, Object info) {
+        System.out.println("public void report_error");
+    }
+
+    public void report_fatal_error(String message, Object info) {
+        System.out.println("public void report_fatal_error");
+    }
+
+    public void syntax_error(Symbol cur_token) {
+        Token token = (Token) cur_token.value;
+
+
+        if (cur_token.sym == TSParserSym.EOF) {
+            errorMessages.add("Simbolo no esperado."));
+
+        } else {
+            String tokenVal = token.getValue() == null? EntradaParserSym.terminalNames[token.getType()]: token.getValue();
+            errorMessages.add("Simbolo no esperado: "+tokenVal));
+
+        }
+    }
+
+    public void unrecovered_syntax_error(Symbol cur_token) {
+        Token token = (Token) cur_token.value;
+
+        if (cur_token.sym == TSParserSym.EOF) {
+            errorMessages.add("Simbolo no esperado."));
+
+        } else {
+            String tokenVal = token.getValue() == null? EntradaParserSym.terminalNames[token.getType()]: token.getValue();
+            errorMessages.add("Simbolo no esperado: "+tokenVal));
+
+        }
     }
 :}
 
-terminal Token LESS, GREATER, DIAGONAL, BYTE, SHORT, INT, FLOAT, DOUBLE, LONG, CHAR, BOOLEAN, NAME;
+terminal Token LESS, GREATER, DIAGONAL, INT,  DOUBLE, CHAR, BOOLEAN, NAME;
 
-non terminal main, attributes, value, lName, rName, string;
+non terminal main, rName;
+non terminal List<Attribute> attributes;
+non terminal Attribute value;
+non terminal String lName;
+non terminal StringBuilder string;
 
 start with main;
 
 main
-::=	lName attributes rName
+::=	lName:tableName attributes:list rName
+    {:
+        System.out.println("Agregando a... "+tableName);
+        Table table = Tree.getInstance().getByName(tableName);
+
+        if(table == null){
+            errorMessages.add("No se encontró la tabla con nombre: "+tableName);
+        } else {
+
+            Row row = new Row();
+            row.attributes = list;
+            if(!table.addRow(row)){
+                errorMessages.add("No se pudo agregar el registro a la tabla");
+            }
+        }
+    :}
 	;
 
 attributes
-::=	attributes lName value rName
-	| lName value rName
+::=	attributes:at lName:propertyName value:attribute rName
+    {:RESULT = at; attribute.property.propertyName = propertyName; RESULT.add(attribute);:}
+	| lName:propertyName value:attribute rName
+	{:RESULT = new List<>(); attribute.property.propertyName = propertyName; RESULT.add(attribute);:}
 	;
 
 value
-::= INT
-    | SHORT
-    | BYTE
-    | FLOAT
-    | DOUBLE
-    | LONG
-    | CHAR
-    | BOOLEAN
-    | string
+::= INT:num
+    {:RESULT = new Attribute(num.getValue(),new Property()); RESULT.property.propertyType = PropertyType.INT;:}
+    | DOUBLE:db
+    {:RESULT = new Attribute(db.getValue(),new Property()); RESULT.property.propertyType = PropertyType.DOUBLE;:}
+    | CHAR:ch
+    {:RESULT = new Attribute(ch.getValue(),new Property()); RESULT.property.propertyType = PropertyType.CHAR;:}
+    | BOOLEAN:bool
+    {:RESULT = new Attribute(bool.getValue(),new Property()); RESULT.property.propertyType = PropertyType.BOOLEAN;:}
+    | string:content
+    {:RESULT = new Attribute(content.toString(),new Property()); RESULT.property.propertyType = PropertyType.STRING;:}
     ;
 
 string
-::= string NAME
-    | NAME
+::= string:builder NAME:content
+    {:RESULT = builder; RESULT.append(" ").append(content.getValue());:}
+    | NAME:content
+    {:RESULT = new StringBuilder(); RESULT.append(content.getValue());:}
     ;
 
 
 lName
-::= LESS NAME GREATER
+::= LESS NAME:name GREATER
+    {:RESULT = name.getValue();:}
     ;
 
 rName

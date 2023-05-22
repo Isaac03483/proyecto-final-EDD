@@ -68,11 +68,11 @@ public class CargaLexer implements java_cup.runtime.Scanner {
 
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
     "\11\0\1\1\1\2\1\0\1\1\1\3\22\0\1\1"+
-    "\3\4\12\0\1\5\1\6\12\7\2\0\1\10\1\0"+
-    "\1\11\1\4\1\0\5\12\1\13\5\12\1\14\16\12"+
-    "\4\0\1\4\1\0\1\15\3\12\1\16\1\17\5\12"+
-    "\1\20\5\12\1\21\1\22\1\23\1\24\5\12\1\0"+
-    "\1\4\1\0\1\4\55\0\1\4\20\0\1\4\u0142\0";
+    "\3\4\11\0\1\4\1\5\1\6\12\7\2\0\1\10"+
+    "\1\0\1\11\1\4\1\0\32\12\4\0\1\4\1\0"+
+    "\1\13\3\12\1\14\1\15\5\12\1\16\5\12\1\17"+
+    "\1\20\1\21\1\22\5\12\1\0\1\4\1\0\1\4"+
+    "\55\0\1\4\20\0\1\4\u0142\0";
 
   private static int [] zzUnpackcmap_blocks() {
     int [] result = new int[512];
@@ -100,10 +100,10 @@ public class CargaLexer implements java_cup.runtime.Scanner {
 
   private static final String ZZ_ACTION_PACKED_0 =
     "\1\0\2\1\1\2\1\3\1\4\1\5\1\6\3\7"+
-    "\1\0\1\10\2\2\1\11\2\2\1\12\1\13";
+    "\1\0\2\2\1\10\2\2\1\11";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[20];
+    int [] result = new int[18];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -128,12 +128,12 @@ public class CargaLexer implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\25\0\52\0\77\0\25\0\124\0\25\0\25"+
-    "\0\77\0\151\0\176\0\223\0\77\0\250\0\275\0\322"+
-    "\0\347\0\374\0\25\0\77";
+    "\0\0\0\23\0\46\0\71\0\23\0\114\0\23\0\23"+
+    "\0\71\0\137\0\162\0\205\0\230\0\253\0\205\0\276"+
+    "\0\321\0\71";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[20];
+    int [] result = new int[18];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -157,19 +157,18 @@ public class CargaLexer implements java_cup.runtime.Scanner {
 
   private static final String ZZ_TRANS_PACKED_0 =
     "\1\0\2\2\1\3\1\4\1\0\1\5\1\6\1\7"+
-    "\1\10\5\11\1\12\3\11\1\13\1\11\27\0\1\2"+
-    "\26\0\1\4\2\0\1\4\2\0\13\4\4\0\1\4"+
-    "\1\14\1\0\1\6\2\0\2\4\1\15\3\4\1\15"+
-    "\4\4\4\0\1\4\2\0\1\4\2\0\3\4\1\16"+
-    "\7\4\4\0\1\4\2\0\1\4\2\0\7\4\1\17"+
-    "\3\4\7\0\1\20\21\0\1\4\2\0\1\4\2\0"+
-    "\6\4\1\21\4\4\4\0\1\4\2\0\1\4\2\0"+
-    "\12\4\1\22\7\0\1\20\3\0\1\23\3\0\1\23"+
-    "\11\0\1\4\2\0\1\4\2\0\10\4\1\22\2\4"+
-    "\4\0\1\4\2\0\1\4\2\0\4\4\1\24\6\4";
+    "\1\10\3\11\1\12\3\11\1\13\1\11\25\0\1\2"+
+    "\24\0\1\4\2\0\1\4\2\0\11\4\4\0\1\4"+
+    "\1\14\1\0\1\6\2\0\11\4\4\0\1\4\2\0"+
+    "\1\4\2\0\1\4\1\15\7\4\4\0\1\4\2\0"+
+    "\1\4\2\0\5\4\1\16\3\4\7\0\1\17\17\0"+
+    "\1\4\2\0\1\4\2\0\4\4\1\20\4\4\4\0"+
+    "\1\4\2\0\1\4\2\0\10\4\1\21\4\0\1\4"+
+    "\2\0\1\4\2\0\6\4\1\21\2\4\4\0\1\4"+
+    "\2\0\1\4\2\0\2\4\1\22\6\4";
 
   private static int [] zzUnpacktrans() {
-    int [] result = new int[273];
+    int [] result = new int[228];
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -213,10 +212,10 @@ public class CargaLexer implements java_cup.runtime.Scanner {
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
     "\1\0\1\11\2\1\1\11\1\1\2\11\3\1\1\0"+
-    "\6\1\1\11\1\1";
+    "\6\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[20];
+    int [] result = new int[18];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -297,24 +296,8 @@ public class CargaLexer implements java_cup.runtime.Scanner {
 
         System.out.println("Encontrando: "+value.toString()+" "+EntradaParserSym.terminalNames[type]);
 
-        if(type != INT){
-            return new Symbol(type, new Token(type, value.toString(), yyline+1, yycolumn+1 ));
-        }
+        return new Symbol(type, new Token(type, value.toString(), yyline+1, yycolumn+1 ));
 
-        int number = Integer.parseInt(value.toString());
-        if(number < Byte.MIN_VALUE || number > Byte.MAX_VALUE){
-
-            if(number < Short.MIN_VALUE || number > Short.MAX_VALUE){
-
-                return new Symbol(INT, new Token(INT, value.toString(), yyline+1, yycolumn+1 ));
-
-            }
-
-            return new Symbol(SHORT, new Token(SHORT, value.toString(), yyline+1, yycolumn+1 ));
-
-        }
-
-        return new Symbol(BYTE, new Token(BYTE, value.toString(), yyline+1, yycolumn+1 ));
 
     }
 
@@ -607,7 +590,7 @@ public class CargaLexer implements java_cup.runtime.Scanner {
    * @return the next token.
    * @exception java.io.IOException if any I/O-Error occurs.
    */
-  @Override  public Symbol next_token() throws java.io.IOException
+  @Override  public java_cup.runtime.Symbol next_token() throws java.io.IOException
   {
     int zzInput;
     int zzAction;
@@ -754,57 +737,47 @@ public class CargaLexer implements java_cup.runtime.Scanner {
             { ;
             }
           // fall through
-          case 12: break;
+          case 10: break;
           case 2:
             { return symbolWithValue(NAME, yytext());
             }
           // fall through
-          case 13: break;
+          case 11: break;
           case 3:
             { return symbolWithoutValue(DIAGONAL);
             }
           // fall through
-          case 14: break;
+          case 12: break;
           case 4:
             { return symbolWithValue(INT, yytext());
             }
           // fall through
-          case 15: break;
+          case 13: break;
           case 5:
             { return symbolWithoutValue(LESS);
             }
           // fall through
-          case 16: break;
+          case 14: break;
           case 6:
             { return symbolWithoutValue(GREATER);
             }
           // fall through
-          case 17: break;
+          case 15: break;
           case 7:
             { return symbolWithValue(CHAR, yytext());
             }
           // fall through
-          case 18: break;
+          case 16: break;
           case 8:
-            { return symbolWithValue(LONG, yytext());
-            }
-          // fall through
-          case 19: break;
-          case 9:
             { return symbolWithValue(DOUBLE, yytext());
             }
           // fall through
-          case 20: break;
-          case 10:
-            { return symbolWithValue(FLOAT, yytext());
-            }
-          // fall through
-          case 21: break;
-          case 11:
+          case 17: break;
+          case 9:
             { return symbolWithValue(BOOLEAN, yytext());
             }
           // fall through
-          case 22: break;
+          case 18: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

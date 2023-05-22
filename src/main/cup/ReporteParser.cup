@@ -39,7 +39,7 @@ rTables
     ;
 
 names
-::= names COMA NAME
+::= NAME COMA NAME
     | NAME
     ;
 lReport

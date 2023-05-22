@@ -2,6 +2,9 @@ package com.mio.controllers;
 
 import com.mio.gui.MainFrame;
 import com.mio.models.abbTree.Tree;
+import com.mio.models.list.List;
+import com.mio.models.list.Node;
+import com.mio.utils.Painter;
 
 import javax.swing.JFileChooser;
 import java.io.*;
@@ -35,6 +38,7 @@ public class MainController implements Runnable{
     }
 
     private void readFile(File file) {
+        this.mainFrame.getMessageArea().setText("");
         try {
 
             Scanner scanner = new Scanner(file);
@@ -52,7 +56,12 @@ public class MainController implements Runnable{
                     System.out.println("Parseando estructuras...");
                     EstParserController eParserHandler = new EstParserController();
                     eParserHandler.compile(content.toString());
-                    Tree.getInstance().print();
+                    List<String> out = eParserHandler.getErrorMessages();
+                    Node<String> currentNode = out.firstNode;
+                    while(currentNode != null){
+                        this.mainFrame.getMessageArea().append(currentNode.value+"\n");
+                        currentNode = currentNode.next;
+                    }
                 }
                 case "entrada.dat" -> {
                     System.out.println("Parseando entrada...");

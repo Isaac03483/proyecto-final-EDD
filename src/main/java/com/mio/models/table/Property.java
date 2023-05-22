@@ -7,6 +7,9 @@ public class Property {
     public String propertyName;
     public PropertyType propertyType;
 
+    public Property() {
+    }
+
     public Property(String propertyName, PropertyType propertyType) {
         this.propertyName = propertyName;
         this.propertyType = propertyType;

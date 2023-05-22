@@ -21,13 +21,47 @@ parser code{:
         super(lexer);
         this.errorMessages = errorMessages;
     }
+
+    public void report_error(String message, Object info) {
+        System.out.println("public void report_error");
+    }
+
+    public void report_fatal_error(String message, Object info) {
+        System.out.println("public void report_fatal_error");
+    }
+
+    public void syntax_error(Symbol cur_token) {
+        Token token = (Token) cur_token.value;
+
+
+        if (cur_token.sym == TSParserSym.EOF) {
+            errorMessages.add("Simbolo no esperado."));
+
+        } else {
+            String tokenVal = token.getValue() == null? EntradaParserSym.terminalNames[token.getType()]: token.getValue();
+            errorMessages.add("Simbolo no esperado: "+tokenVal));
+
+        }
+    }
+
+    public void unrecovered_syntax_error(Symbol cur_token) {
+        Token token = (Token) cur_token.value;
+
+        if (cur_token.sym == TSParserSym.EOF) {
+            errorMessages.add("Simbolo no esperado."));
+        } else {
+            String tokenVal = token.getValue() == null? EntradaParserSym.terminalNames[token.getType()]: token.getValue();
+            errorMessages.add("Simbolo no esperado: "+tokenVal));
+
+        }
+    }
 :}
 
 terminal Token ESTRUCTURA, ESTRUCTURAS, TABLA, LESS, GREATER, CLAVE, NAME, DIAGONAL, PADRE;
-terminal Token BYTE, SHORT, INT, LONG, DOUBLE, FLOAT, BOOLEAN, CHAR, STRING;
+terminal Token INT, DOUBLE, BOOLEAN, CHAR, STRING, RELACION;
 
 non terminal main, structs, struct, lTable, rTable;
-non terminal lKey, rKey, rName, lStruct, rStruct, lStructs, rStructs, lParent, rParent;
+non terminal lKey, rKey, rName, lStruct, rStruct, lStructs, rStructs, lParent, rParent, lRelation, rRelation;
 non terminal List<Property> properties;
 non terminal String lName;
 non terminal PropertyType type;
@@ -46,33 +80,47 @@ structs
 struct
 ::=	lStruct
     lTable NAME:tableName rTable
+    lRelation lName:propertyName type:type rName lName:parentName NAME rName rRelation
     properties:list
     lKey NAME:keyName rKey
-    lParent NAME:parentName rParent
     rStruct
     {:
-        if(list.hasDuplicates()){
-            errorMessages.add("No se pudo crear la estructura, contiene propiedades duplicadas.");
-        } else {
-            Property key = new Property(keyName.getValue(), null);
-            Property isIn = list.find(key);
+        Property foreignProperty = new Property(propertyName, type);
+        Table parent = Tree.getInstance().getByName(parentName);
+        if ( parent == null ) {
+            errorMessages.add("No se encontró la entidad: "+parentName);
 
-            if(isIn == null){
-                errorMessages.add("No se pudo crear la estructura, no se encontró la llave: "+keyName.getValue());
+        } else {
+
+            Property parentProperty = parent.properties.find(foreignProperty);
+            if ( parentProperty == null ) {
+                errorMessages.add("No se encontró la propiedad en la entidad padre: "+propertyName);
             } else {
 
-                if(!Tree.getInstance().findParent(parentName.getValue())){
-                    errorMessages.add("No se pudo crear la estructura, no se encontró el padre: "+parentName.getValue());
-
+                if(foreignProperty.propertyType != parentProperty.propertyType) {
+                    errorMessages.add("El tipo de la propiedad: "+parentProperty.propertyName+" del padre no coincide con la actual");
                 } else {
 
-                    Table table = new Table(tableName.getValue(),list, keyName.getValue(), parentName.getValue());
+                    list.add(foreignProperty);
+                    if ( list.hasDuplicates() ) {
+                        errorMessages.add("Propiedades duplicadas.");
+                    } else {
 
-                    if(!Tree.getInstance().add(table)){
-                        errorMessages.add("No se pudo agregar la estructura, ya existe una con ese nombre.");
+                        Property keyProperty = new Property(keyName.getValue(), null);
+
+                        Property keyInList = list.find(keyProperty);
+
+                        if( keyInList == null ) {
+                            errorMessages.add("No se encontró la llave: "+keyName.getValue()+" dentro de las propiedades.");
+
+                        } else {
+                            Table newTable = new Table(tableName.getValue(), list, keyName.getValue(), propertyName, parentName);
+                            Tree.getInstance().add(newTable);
+                            errorMessages.add("Tabla: "+tableName.getValue()+" creada con éxito.");
+                        }
+
                     }
                 }
-
             }
         }
     :}
@@ -82,21 +130,23 @@ struct
       lKey NAME:keyName rKey
       rStruct
     {:
-        if(list.hasDuplicates()){
-            errorMessages.add("No se pudo crear la estructura, contiene propiedades duplicadas.");
+        if ( list.hasDuplicates() ) {
+            errorMessages.add("Propiedades duplicadas.");
         } else {
-            Property key = new Property(keyName.getValue(), null);
-            Property isIn = list.find(key);
 
-            if(isIn == null){
-                errorMessages.add("No se pudo crear la estructura, no se encontró la llave: "+keyName.getValue());
+            Property keyProperty = new Property(keyName.getValue(), null);
+
+            Property keyInList = list.find(keyProperty);
+
+            if( keyInList == null ) {
+                errorMessages.add("No se encontró la llave: "+keyName.getValue()+" dentro de las propiedades.");
+
             } else {
-                Table table = new Table(tableName.getValue(),list, keyName.getValue());
-
-                if(!Tree.getInstance().add(table)){
-                    errorMessages.add("No se pudo agregar la estructura, ya existe una con ese nombre.");
-                }
+                Table newTable = new Table(tableName.getValue(), list, keyName.getValue());
+                Tree.getInstance().add(newTable);
+                errorMessages.add("Tabla: "+tableName.getValue()+" creada con éxito.");
             }
+
         }
     :}
 	;
@@ -109,12 +159,8 @@ properties
 	;
 
 type
-::= BYTE                                                    {:RESULT = PropertyType.BYTE;:}
-    | SHORT                                                 {:RESULT = PropertyType.SHORT;:}
-    | INT                                                   {:RESULT = PropertyType.INT;:}
-    | LONG                                                  {:RESULT = PropertyType.LONG;:}
+::= INT                                                   {:RESULT = PropertyType.INT;:}
     | DOUBLE                                                {:RESULT = PropertyType.DOUBLE;:}
-    | FLOAT                                                 {:RESULT = PropertyType.FLOAT;:}
     | BOOLEAN                                               {:RESULT = PropertyType.BOOLEAN;:}
     | CHAR                                                  {:RESULT = PropertyType.CHAR;:}
     | STRING                                                {:RESULT = PropertyType.STRING;:}
@@ -167,4 +213,12 @@ lParent
 
 rParent
 ::= LESS DIAGONAL PADRE GREATER
+    ;
+
+lRelation
+::= LESS RELACION GREATER
+    ;
+
+rRelation
+::= LESS DIAGONAL RELACION GREATER
     ;

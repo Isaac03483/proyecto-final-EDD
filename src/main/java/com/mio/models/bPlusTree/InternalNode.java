@@ -36,4 +36,31 @@ public class InternalNode extends Node{
         }
         return -1;
     }
+
+    public int findIndexOfPointer(Node pointer){
+        for(int i = 0; i < childPointers.length; i++) {
+            if(childPointers[i] == pointer){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public void insertChildPointer(Node pointer, int index) {
+        for(int i = degree; i >= index; i--) {
+            childPointers[i + 1] = childPointers[i];
+        }
+        this.childPointers[index] = pointer;
+        this.degree++;
+    }
+
+    public void appendChildPointer(Node pointer) {
+        this.childPointers[degree] = pointer;
+        this.degree++;
+    }
+
+    public void removePointer(int index) {
+        this.childPointers[index] = null;
+        this.degree--;
+    }
 }

@@ -18,6 +18,7 @@ public class MainFrame extends javax.swing.JFrame {
         this.controller = new MainController(this);
         LineNumber lineNumber = new LineNumber(this.contentArea);
         jScrollPane1.setRowHeaderView(lineNumber);
+        this.contentArea.setEditable(true);
     }
 
     public JTextArea getContentArea() {
@@ -135,6 +136,8 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void graphButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_graphButtonActionPerformed
         // TODO add your handling code here:
+        GraphicFrame graphicFrame = new GraphicFrame(this, true);
+        graphicFrame.setVisible(true);
     }//GEN-LAST:event_graphButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

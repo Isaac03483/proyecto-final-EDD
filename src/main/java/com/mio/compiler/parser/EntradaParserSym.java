@@ -8,32 +8,24 @@ package com.mio.compiler.parser;
 /** CUP generated class containing symbol constants. */
 public class EntradaParserSym {
   /* terminals */
-  public static final int INT = 7;
-  public static final int LONG = 10;
-  public static final int BOOLEAN = 12;
+  public static final int INT = 5;
+  public static final int BOOLEAN = 8;
   public static final int GREATER = 3;
   public static final int EOF = 0;
-  public static final int DOUBLE = 9;
+  public static final int DOUBLE = 6;
   public static final int DIAGONAL = 4;
   public static final int LESS = 2;
   public static final int error = 1;
-  public static final int BYTE = 5;
-  public static final int NAME = 13;
-  public static final int CHAR = 11;
-  public static final int FLOAT = 8;
-  public static final int SHORT = 6;
+  public static final int NAME = 9;
+  public static final int CHAR = 7;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
   "LESS",
   "GREATER",
   "DIAGONAL",
-  "BYTE",
-  "SHORT",
   "INT",
-  "FLOAT",
   "DOUBLE",
-  "LONG",
   "CHAR",
   "BOOLEAN",
   "NAME"

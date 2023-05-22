@@ -39,12 +39,9 @@ SALTO_LINEA = \r|\n|\r\n
 ESPACIO_BLANCO = {SALTO_LINEA}|[ \t\f]
 ESTRUCTURA = "estructura"
 ESTRUCTURAS = "estructuras"
-BYTE = "byte"
-SHORT = "short"
+RELACION = "relacion"
 INT = "int"
-LONG = "long"
 DOUBLE = "double"
-FLOAT = "float"
 BOOLEAN = "boolean"
 CHAR = "char"
 STRING = "String" | "string"
@@ -61,19 +58,16 @@ DIAGONAL = "/"
 <YYINITIAL> {
 
     {ESPACIO_BLANCO}    {;}
-    {LESS}                                {return symbolWithoutValue(LESS);}
-    {GREATER}                                {return symbolWithoutValue(GREATER);}
+    {LESS}                                  {return symbolWithoutValue(LESS);}
+    {GREATER}                               {return symbolWithoutValue(GREATER);}
     {ESTRUCTURA}                            {return symbolWithoutValue(ESTRUCTURA);}
     {ESTRUCTURAS}                           {return symbolWithoutValue(ESTRUCTURAS);}
+    {RELACION}                              {return symbolWithoutValue(RELACION);}
     {CLAVE}                                 {return symbolWithoutValue(CLAVE);}
     {TABLA}                                 {return symbolWithoutValue(TABLA);}
     {PADRE}                                 {return symbolWithoutValue(PADRE);}
-    {BYTE}                                  {return symbolWithoutValue(BYTE);}
-    {SHORT}                                 {return symbolWithoutValue(SHORT);}
     {INT}                                   {return symbolWithoutValue(INT);}
-    {LONG}                                  {return symbolWithoutValue(LONG);}
     {DOUBLE}                                {return symbolWithoutValue(DOUBLE);}
-    {FLOAT}                                 {return symbolWithoutValue(FLOAT);}
     {CHAR}                                  {return symbolWithoutValue(CHAR);}
     {BOOLEAN}                               {return symbolWithoutValue(BOOLEAN);}
     {STRING}                                {return symbolWithoutValue(STRING);}

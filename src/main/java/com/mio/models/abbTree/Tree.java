@@ -4,7 +4,7 @@ import com.mio.models.table.Table;
 
 public class Tree {
 
-    Node<Table> root;
+    public Node<Table> root;
     public static Tree tree;
 
     private Tree() {
@@ -49,6 +49,30 @@ public class Tree {
         }
 
         return add(currentNode.rightChildren, node);
+    }
+
+    public Table getByName(String tableName){
+        if(this.isEmpty()){
+            return null;
+        }
+
+        return getByName(this.root, tableName);
+    }
+
+    private Table getByName(Node<Table> currentNode, String tableName){
+        if(currentNode == null){
+            return null;
+        }
+
+        if(currentNode.value.tableName.compareTo(tableName) == 0){
+            return currentNode.value;
+        }
+
+        if(currentNode.value.tableName.compareTo(tableName) > 0){
+            return getByName(currentNode.leftChildren, tableName);
+        }
+
+        return getByName(currentNode.rightChildren, tableName);
     }
 
     public boolean findParent(String parentName){
