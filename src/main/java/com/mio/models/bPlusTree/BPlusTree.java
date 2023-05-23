@@ -1,18 +1,21 @@
 package com.mio.models.bPlusTree;
 
+import com.mio.models.table.PropertyType;
 import com.mio.models.table.Row;
 import com.mio.utils.Sort;
 
-import java.util.Arrays;
+//import java.util.Arrays;
 
 public class BPlusTree {
 
     public int max;
+    public PropertyType primaryType;
     public InternalNode root;
     public LeafNode firstLeaf;
 
-    public BPlusTree(int max){
+    public BPlusTree(int max, PropertyType primaryType){
         this.max = max;
+        this.primaryType=primaryType;
         this.root = null;
     }
 
@@ -24,13 +27,14 @@ public class BPlusTree {
      */
     public void insert(String key, Row value){
         if(isEmpty()){
-            this.firstLeaf = new LeafNode(this.max, new Pair(key, value));
+            this.firstLeaf = new LeafNode(this.max, new Pair(key, value, primaryType));
         } else {
             LeafNode leafNode = this.root == null ? this.firstLeaf : findLeaf(key);
-            if (!leafNode.insert(new Pair(key, value))) {
-                leafNode.pairs[leafNode.degree] = new Pair(key, value);
+            if (!leafNode.insert(new Pair(key, value, primaryType))) {
+                leafNode.pairs[leafNode.degree] = new Pair(key, value, primaryType);
                 leafNode.degree++;
-                Arrays.sort(leafNode.pairs);
+//                Arrays.sort(leafNode.pairs);
+                Sort.sort(leafNode.pairs, primaryType);
 
                 int midPoint = getMidPoint();
                 Pair[] half = splitPair(leafNode, midPoint);
@@ -43,13 +47,15 @@ public class BPlusTree {
 
                     leafNode.parent = parent;
 
-//                    parent.appendChildPointer(leafNode);
+                    parent.appendChildPointer(leafNode);
                 } else {
                     String newParentKey = half[0].key;
                     leafNode.parent.keys[leafNode.parent.degree - 1] = newParentKey;
 
-                    Arrays.sort(leafNode.parent.keys, 0, leafNode.parent.degree);
+//                    Arrays.sort(leafNode.parent.keys, 0, leafNode.parent.degree);
 
+                    System.out.println("ORDENANDO LLAVES");
+                    Sort.sort(leafNode.parent.keys, 0, leafNode.parent.degree, primaryType);
                 }
 
                 LeafNode newLeafNode = new LeafNode(this.max, half, leafNode.parent);
@@ -124,7 +130,8 @@ public class BPlusTree {
             sibling.parent = newRoot;
         } else {
             parent.keys[parent.degree - 1] = newParentKey;
-            Arrays.sort(parent.keys, 0, parent.degree);
+//            Arrays.sort(parent.keys, 0, parent.degree);
+            Sort.sort(parent.keys,  0, parent.degree, primaryType);
             int pointerIndex = parent.findIndexOfPointer(internalNode) + 1;
             parent.insertChildPointer(sibling, pointerIndex);
             sibling.parent = parent;
@@ -139,7 +146,7 @@ public class BPlusTree {
      * @return
      */
     private int linearNullSearch(Node[] childPointers) {
-        for(int i = 0; i < childPointers.length; i++){
+        for(int i = 0; i < childPointers.length-1; i++){
             if(childPointers[i] == null) {
                 return i;
             }
@@ -229,12 +236,16 @@ public class BPlusTree {
         int index;
 
         for(index = 0; index < this.root.degree-1; index++){
-            if(key.compareTo(keys[index]) < 0){
+            System.out.println("COMPARANDO FINDLEAF: "+key+". CON: "+keys[index]+". PROPERTY: "+primaryType);
+            System.out.println(Sort.compare(key,keys[index], primaryType));
+            if(Sort.compare(key,keys[index], primaryType)){
+//            if(key.compareTo(keys[index]) < 0){
                 break;
             }
         }
 
         Node child = this.root.childPointers[index];
+        System.out.println("CHILD INSTANCE LEAF: "+(child instanceof LeafNode));
         if(child instanceof LeafNode){
             return (LeafNode) child;
         }
@@ -253,8 +264,12 @@ public class BPlusTree {
         String[] keys = currentNode.keys;
         int index;
 
-        for(index = 0; index < currentNode.degree; index++){
-            if(key.compareTo(keys[index]) < 0) break;
+        for(index = 0; index < currentNode.degree-1; index++){
+//            if(key.compareTo(keys[index]) < 0) break;
+            System.out.println("COMPARANDO CURRENTNODE: "+key+". CON: "+keys[index]+". PROPERTY: "+primaryType);
+            System.out.println(Sort.compare(key,keys[index], primaryType));
+
+            if(Sort.compare(key,keys[index], primaryType)) break;
         }
 
         Node child = currentNode.childPointers[index];
@@ -276,7 +291,8 @@ public class BPlusTree {
     public void printRows(LeafNode leafNode){
         if(leafNode != null){
             for(int i = 0; i < leafNode.degree; i++){
-                System.out.println(leafNode.pairs[i].value.keyAttribute.value);
+                if(leafNode.pairs[i] != null)
+                    System.out.println(leafNode.pairs[i].value.keyAttribute.value);
             }
 
             printRows(leafNode.rightSibling);

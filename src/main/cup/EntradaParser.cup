@@ -5,16 +5,18 @@ import com.mio.compiler.lexer.CargaLexer;
 import com.mio.models.abbTree.Tree;
 import com.mio.models.list.List;
 import com.mio.models.table.*;
+import java_cup.runtime.Symbol;
+
 
 class EntradaParser;
 
 parser code {:
 
     List<String> errorMessages;
-    public EntradaParser(CargaLexer lexer, List<String> errorList){
+    public EntradaParser(CargaLexer lexer, List<String> errorMessages){
 
         super(lexer);
-        this.errorList = errorList;
+        this.errorMessages = errorMessages;
     }
 
     public void report_error(String message, Object info) {
@@ -29,12 +31,12 @@ parser code {:
         Token token = (Token) cur_token.value;
 
 
-        if (cur_token.sym == TSParserSym.EOF) {
-            errorMessages.add("Simbolo no esperado."));
+        if (cur_token.sym == EntradaParserSym.EOF) {
+            errorMessages.add("Simbolo no esperado.");
 
         } else {
             String tokenVal = token.getValue() == null? EntradaParserSym.terminalNames[token.getType()]: token.getValue();
-            errorMessages.add("Simbolo no esperado: "+tokenVal));
+            errorMessages.add("Simbolo no esperado: "+tokenVal);
 
         }
     }
@@ -42,12 +44,12 @@ parser code {:
     public void unrecovered_syntax_error(Symbol cur_token) {
         Token token = (Token) cur_token.value;
 
-        if (cur_token.sym == TSParserSym.EOF) {
-            errorMessages.add("Simbolo no esperado."));
+        if (cur_token.sym == EntradaParserSym.EOF) {
+            errorMessages.add("Simbolo no esperado.");
 
         } else {
             String tokenVal = token.getValue() == null? EntradaParserSym.terminalNames[token.getType()]: token.getValue();
-            errorMessages.add("Simbolo no esperado: "+tokenVal));
+            errorMessages.add("Simbolo no esperado: "+tokenVal);
 
         }
     }
@@ -55,7 +57,7 @@ parser code {:
 
 terminal Token LESS, GREATER, DIAGONAL, INT,  DOUBLE, CHAR, BOOLEAN, NAME;
 
-non terminal main, rName;
+non terminal main, rName, rows, row;
 non terminal List<Attribute> attributes;
 non terminal Attribute value;
 non terminal String lName;
@@ -64,6 +66,16 @@ non terminal StringBuilder string;
 start with main;
 
 main
+::= rows
+    ;
+
+rows
+::= rows row
+    | row
+    ;
+
+
+row
 ::=	lName:tableName attributes:list rName
     {:
         System.out.println("Agregando a... "+tableName);
@@ -76,7 +88,10 @@ main
             Row row = new Row();
             row.attributes = list;
             if(!table.addRow(row)){
-                errorMessages.add("No se pudo agregar el registro a la tabla");
+                errorMessages.add("No se pudo agregar el registro a la tabla.");
+            } else {
+
+                errorMessages.add("Registro agregado con éxito.");
             }
         }
     :}

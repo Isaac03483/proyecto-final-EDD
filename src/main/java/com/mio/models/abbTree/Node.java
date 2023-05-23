@@ -1,6 +1,6 @@
 package com.mio.models.abbTree;
 
-public class Node<T>{
+public class Node<T> {
 
     public T value;
     public Node<T> leftChildren;

@@ -12,24 +12,25 @@ public class Table {
     public List<Property> properties;
     public String key;
     public String foreign;
+    public PropertyType primaryType;
     public String parentName;
     public BPlusTree rows;
 
-    public Table(String tableName, List<Property> properties, String key, String foreign, String parentName) {
+    public Table(String tableName, List<Property> properties, String key, String foreign, String parentName, PropertyType primaryType) {
         this.tableName = tableName;
         this.properties = properties;
         this.key = key;
         this.foreign = foreign;
         this.parentName = parentName;
-        this.rows = new BPlusTree(3);
+        this.rows = new BPlusTree(3,primaryType);
     }
 
-    public Table(String tableName, List<Property> properties, String key) {
+    public Table(String tableName, List<Property> properties, String key, PropertyType primaryType) {
         this.tableName = tableName;
         this.properties = properties;
         this.key = key;
         this.parentName = null;
-        this.rows = new BPlusTree(3);
+        this.rows = new BPlusTree(3,primaryType);
     }
 
     public boolean addRow(Row row){

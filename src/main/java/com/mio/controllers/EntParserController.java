@@ -12,26 +12,21 @@ import java.io.StringReader;
 public class EntParserController {
 
     private EntradaParser parser;
-    private List<String> errorList;
+    private List<String> errorMessages;
 
     public void compile(String input){
         CargaLexer lexer = new CargaLexer(new StringReader(input));
 
-        errorList = new List<>();
-        parser = new EntradaParser(lexer, errorList);
+        errorMessages = new List<>();
+        parser = new EntradaParser(lexer, errorMessages);
         try {
             parser.parse();
-            printErrorMessages();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    public void printErrorMessages(){
-        Node<String> node = errorList.firstNode;
-        while(node != null){
-            System.out.println(node.value);
-            node = node.next;
-        }
+    public List<String> getErrorMessages(){
+        return errorMessages;
     }
 }

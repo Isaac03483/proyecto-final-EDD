@@ -1,15 +1,18 @@
 package com.mio.models.bPlusTree;
 
+import com.mio.models.table.PropertyType;
 import com.mio.models.table.Row;
 
 public class Pair implements Comparable<Pair> {
 
     public String key;
     public Row value;
+    public PropertyType primaryType;
 
-    public Pair(String key, Row value){
+    public Pair(String key, Row value, PropertyType primaryType){
         this.key = key;
         this.value = value;
+        this.primaryType = primaryType;
     }
 
     @Override

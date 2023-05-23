@@ -35,8 +35,10 @@ public class LeafNode extends Node{
         }
         this.pairs[degree] = pair;
         degree++;
-        Arrays.sort(this.pairs, 0, degree);
+//        Arrays.sort(this.pairs, 0, degree);
+        Sort.sort(this.pairs, 0, degree,this.pairs[0].primaryType);
 
+        printPairs();
         return true;
     }
 
@@ -56,5 +58,11 @@ public class LeafNode extends Node{
             }
         }
         return 0;
+    }
+
+    private void printPairs(){
+        for(int i = 0; i < degree; i++){
+            System.out.println("LLAVE DEL VALOR: "+pairs[i].key);
+        }
     }
 }

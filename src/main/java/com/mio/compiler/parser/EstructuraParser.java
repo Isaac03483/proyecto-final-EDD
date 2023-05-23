@@ -7,16 +7,18 @@ package com.mio.compiler.parser;
 
 import com.mio.compiler.Token;
 import com.mio.compiler.lexer.EstructuraLexer;
+import com.mio.controllers.EstParserController;
 import com.mio.models.abbTree.Tree;
 import com.mio.models.list.List;
 import com.mio.models.table.Property;
 import com.mio.models.table.PropertyType;
 import com.mio.models.table.Table;
+import java_cup.runtime.Symbol;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
   */
 @SuppressWarnings({"rawtypes"})
-public class EstructuraParser extends java_cup.runtime.lr_parser {
+public class EstructuraParser extends java_cup.runtime.lr_parser{
 
  public final Class getSymbolContainer() {
     return EstructuraParserSym.class;
@@ -178,6 +180,40 @@ public class EstructuraParser extends java_cup.runtime.lr_parser {
         this.errorMessages = errorMessages;
     }
 
+    public void report_error(String message, Object info) {
+        System.out.println("public void report_error");
+    }
+
+    public void report_fatal_error(String message, Object info) {
+        System.out.println("public void report_fatal_error");
+    }
+
+    public void syntax_error(Symbol cur_token) {
+        Token token = (Token) cur_token.value;
+
+
+        if (cur_token.sym == EntradaParserSym.EOF) {
+            errorMessages.add("Simbolo no esperado.");
+
+        } else {
+            String tokenVal = token.getValue() == null? EntradaParserSym.terminalNames[token.getType()]: token.getValue();
+            errorMessages.add("Simbolo no esperado: "+tokenVal);
+
+        }
+    }
+
+    public void unrecovered_syntax_error(Symbol cur_token) {
+        Token token = (Token) cur_token.value;
+
+        if (cur_token.sym == EntradaParserSym.EOF) {
+            errorMessages.add("Simbolo no esperado.");
+        } else {
+            String tokenVal = token.getValue() == null? EntradaParserSym.terminalNames[token.getType()]: token.getValue();
+            errorMessages.add("Simbolo no esperado: "+tokenVal);
+
+        }
+    }
+
 
 /** Cup generated class to encapsulate user supplied action code.*/
 @SuppressWarnings({"rawtypes", "unchecked", "unused"})
@@ -296,7 +332,8 @@ class CUP$EstructuraParser$actions {
                             errorMessages.add("No se encontró la llave: "+keyName.getValue()+" dentro de las propiedades.");
 
                         } else {
-                            Table newTable = new Table(tableName.getValue(), list, keyName.getValue(), propertyName, parentName);
+
+                            Table newTable = new Table(tableName.getValue(), list, keyName.getValue(), propertyName, parentName,keyInList.propertyType);
                             Tree.getInstance().add(newTable);
                             errorMessages.add("Tabla: "+tableName.getValue()+" creada con éxito.");
                         }
@@ -336,7 +373,7 @@ class CUP$EstructuraParser$actions {
                 errorMessages.add("No se encontró la llave: "+keyName.getValue()+" dentro de las propiedades.");
 
             } else {
-                Table newTable = new Table(tableName.getValue(), list, keyName.getValue());
+                Table newTable = new Table(tableName.getValue(), list, keyName.getValue(),keyInList.propertyType);
                 Tree.getInstance().add(newTable);
                 errorMessages.add("Tabla: "+tableName.getValue()+" creada con éxito.");
             }

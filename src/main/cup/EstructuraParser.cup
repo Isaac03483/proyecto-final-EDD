@@ -9,6 +9,7 @@ import com.mio.models.list.List;
 import com.mio.models.table.Property;
 import com.mio.models.table.PropertyType;
 import com.mio.models.table.Table;
+import java_cup.runtime.Symbol;
 
 
 class EstructuraParser;
@@ -34,12 +35,12 @@ parser code{:
         Token token = (Token) cur_token.value;
 
 
-        if (cur_token.sym == TSParserSym.EOF) {
-            errorMessages.add("Simbolo no esperado."));
+        if (cur_token.sym == EntradaParserSym.EOF) {
+            errorMessages.add("Simbolo no esperado.");
 
         } else {
             String tokenVal = token.getValue() == null? EntradaParserSym.terminalNames[token.getType()]: token.getValue();
-            errorMessages.add("Simbolo no esperado: "+tokenVal));
+            errorMessages.add("Simbolo no esperado: "+tokenVal);
 
         }
     }
@@ -47,11 +48,11 @@ parser code{:
     public void unrecovered_syntax_error(Symbol cur_token) {
         Token token = (Token) cur_token.value;
 
-        if (cur_token.sym == TSParserSym.EOF) {
-            errorMessages.add("Simbolo no esperado."));
+        if (cur_token.sym == EntradaParserSym.EOF) {
+            errorMessages.add("Simbolo no esperado.");
         } else {
             String tokenVal = token.getValue() == null? EntradaParserSym.terminalNames[token.getType()]: token.getValue();
-            errorMessages.add("Simbolo no esperado: "+tokenVal));
+            errorMessages.add("Simbolo no esperado: "+tokenVal);
 
         }
     }
@@ -114,7 +115,8 @@ struct
                             errorMessages.add("No se encontró la llave: "+keyName.getValue()+" dentro de las propiedades.");
 
                         } else {
-                            Table newTable = new Table(tableName.getValue(), list, keyName.getValue(), propertyName, parentName);
+
+                            Table newTable = new Table(tableName.getValue(), list, keyName.getValue(), propertyName, parentName,keyInList.propertyType);
                             Tree.getInstance().add(newTable);
                             errorMessages.add("Tabla: "+tableName.getValue()+" creada con éxito.");
                         }
@@ -142,7 +144,7 @@ struct
                 errorMessages.add("No se encontró la llave: "+keyName.getValue()+" dentro de las propiedades.");
 
             } else {
-                Table newTable = new Table(tableName.getValue(), list, keyName.getValue());
+                Table newTable = new Table(tableName.getValue(), list, keyName.getValue(),keyInList.propertyType);
                 Tree.getInstance().add(newTable);
                 errorMessages.add("Tabla: "+tableName.getValue()+" creada con éxito.");
             }

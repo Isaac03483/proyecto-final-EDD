@@ -29,7 +29,7 @@ public class InternalNode extends Node{
     }
 
     private int linearNullSearch(Node[] childPointers) {
-        for(int i = 0; i < childPointers.length; i++){
+        for(int i = 0; i < childPointers.length-1; i++){
             if(childPointers[i] == null){
                 return i;
             }
@@ -38,7 +38,7 @@ public class InternalNode extends Node{
     }
 
     public int findIndexOfPointer(Node pointer){
-        for(int i = 0; i < childPointers.length; i++) {
+        for(int i = 0; i < childPointers.length-1; i++) {
             if(childPointers[i] == pointer){
                 return i;
             }
@@ -47,7 +47,7 @@ public class InternalNode extends Node{
     }
 
     public void insertChildPointer(Node pointer, int index) {
-        for(int i = degree; i >= index; i--) {
+        for(int i = degree-1; i >= index; i--) {
             childPointers[i + 1] = childPointers[i];
         }
         this.childPointers[index] = pointer;

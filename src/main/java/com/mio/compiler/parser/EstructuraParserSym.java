@@ -5,6 +5,7 @@
 
 package com.mio.compiler.parser;
 
+
 /** CUP generated class containing symbol constants. */
 public class EstructuraParserSym {
   /* terminals */

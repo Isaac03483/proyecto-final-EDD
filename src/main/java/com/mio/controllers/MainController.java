@@ -57,16 +57,14 @@ public class MainController implements Runnable{
                     EstParserController eParserHandler = new EstParserController();
                     eParserHandler.compile(content.toString());
                     List<String> out = eParserHandler.getErrorMessages();
-                    Node<String> currentNode = out.firstNode;
-                    while(currentNode != null){
-                        this.mainFrame.getMessageArea().append(currentNode.value+"\n");
-                        currentNode = currentNode.next;
-                    }
+                    addMessages(out);
                 }
                 case "entrada.dat" -> {
                     System.out.println("Parseando entrada...");
                     EntParserController entParserController = new EntParserController();
                     entParserController.compile(content.toString());
+                    List<String> out = entParserController.getErrorMessages();
+                    addMessages(out);
                 }
                 case "elimina.dat" -> {
                     System.out.println("Parseando eliminacion...");
@@ -88,6 +86,14 @@ public class MainController implements Runnable{
             throw new RuntimeException(e);
         }
 
+    }
+
+    public void addMessages(List<String> out){
+        Node<String> currentNode = out.firstNode;
+        while(currentNode != null){
+            this.mainFrame.getMessageArea().append(currentNode.value+"\n");
+            currentNode = currentNode.next;
+        }
     }
 
 
