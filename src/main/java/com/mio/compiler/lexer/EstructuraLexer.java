@@ -334,12 +334,12 @@ public class EstructuraLexer implements java_cup.runtime.Scanner {
 
   /* user code: */
     private Symbol symbolWithValue(int type, Object value){
-        System.out.println("Encontrando: "+value.toString()+" "+EstructuraParserSym.terminalNames[type]);
+//        System.out.println("Encontrando: "+value.toString()+" "+EstructuraParserSym.terminalNames[type]);
         return new Symbol(type, new Token(type, value.toString(), yyline+1, yycolumn+1 ));
     }
 
     private Symbol symbolWithoutValue(int type){
-        System.out.println("Encontrando: "+EstructuraParserSym.terminalNames[type]);
+//        System.out.println("Encontrando: "+EstructuraParserSym.terminalNames[type]);
         return new Symbol(type, new Token(type, null, yyline+1, yycolumn+1 ));
     }
 

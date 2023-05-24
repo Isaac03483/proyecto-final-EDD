@@ -294,7 +294,7 @@ public class CargaLexer implements java_cup.runtime.Scanner {
   /* user code: */
     private Symbol symbolWithValue(int type, Object value){
 
-        System.out.println("Encontrando: "+value.toString()+" "+EntradaParserSym.terminalNames[type]);
+//        System.out.println("Encontrando: "+value.toString()+" "+EntradaParserSym.terminalNames[type]);
 
         return new Symbol(type, new Token(type, value.toString(), yyline+1, yycolumn+1 ));
 
@@ -302,7 +302,7 @@ public class CargaLexer implements java_cup.runtime.Scanner {
     }
 
     private Symbol symbolWithoutValue(int type){
-        System.out.println("Encontrando: "+EntradaParserSym.terminalNames[type]);
+//        System.out.println("Encontrando: "+EntradaParserSym.terminalNames[type]);
 
         return new Symbol(type, new Token(type, null, yyline+1, yycolumn+1 ));
     }
