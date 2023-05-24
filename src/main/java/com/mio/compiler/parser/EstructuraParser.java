@@ -333,9 +333,14 @@ class CUP$EstructuraParser$actions {
 
                         } else {
 
-                            Table newTable = new Table(tableName.getValue(), list, keyName.getValue(), propertyName, parentName,keyInList.propertyType);
+                          Table newTable = new Table(tableName.getValue(), list, keyName.getValue(), propertyName, parentName,keyInList.propertyType);
+                          if(Tree.getInstance().search(newTable)){
+                            errorMessages.add("La Tabla: "+tableName.getValue()+" ya existe.");
+
+                          } else {
                             Tree.getInstance().add(newTable);
                             errorMessages.add("Tabla: "+tableName.getValue()+" creada con éxito.");
+                          }
                         }
 
                     }
@@ -374,8 +379,12 @@ class CUP$EstructuraParser$actions {
 
             } else {
                 Table newTable = new Table(tableName.getValue(), list, keyName.getValue(),keyInList.propertyType);
-                Tree.getInstance().add(newTable);
-                errorMessages.add("Tabla: "+tableName.getValue()+" creada con éxito.");
+                if(Tree.getInstance().search(newTable)){
+                  errorMessages.add("La Tabla: "+tableName.getValue()+" ya existe.");
+                }else {
+                  Tree.getInstance().add(newTable);
+                  errorMessages.add("Tabla: "+tableName.getValue()+" creada con éxito.");
+                }
             }
 
         }

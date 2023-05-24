@@ -29,6 +29,8 @@ public class MainFrame extends javax.swing.JFrame {
         return messageArea;
     }
 
+    public JLabel getTextLabel(){return this.textLabel;}
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -46,6 +48,7 @@ public class MainFrame extends javax.swing.JFrame {
         chargeButton = new javax.swing.JButton();
         reportButton = new javax.swing.JButton();
         graphButton = new javax.swing.JButton();
+        CompileButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,6 +87,13 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        CompileButton.setText("Ejecutar");
+        CompileButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CompileButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -102,7 +112,10 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addComponent(reportButton)
                                 .addGap(18, 18, 18)
                                 .addComponent(graphButton)))
-                        .addGap(0, 515, Short.MAX_VALUE)))
+                        .addGap(0, 515, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(CompileButton)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -116,8 +129,10 @@ public class MainFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(textLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(CompileButton)
+                .addGap(12, 12, 12)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -140,7 +155,14 @@ public class MainFrame extends javax.swing.JFrame {
         graphicFrame.setVisible(true);
     }//GEN-LAST:event_graphButtonActionPerformed
 
+    private void CompileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CompileButtonActionPerformed
+        // TODO add your handling code here:
+        messageArea.setText("");
+        controller.readContent(textLabel.getText(), contentArea.getText());
+    }//GEN-LAST:event_CompileButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CompileButton;
     private javax.swing.JButton chargeButton;
     private javax.swing.JTextArea contentArea;
     private javax.swing.JButton graphButton;
