@@ -36,18 +36,15 @@ public class Table {
     public boolean addRow(Row row){
 
         if(row.attributes.hasDuplicates()){
-            System.out.println("datos duplicados");
             return false;
         }
 
         if(!checkRow(row)){
-            System.out.println("chequeando fila");
             return false;
         }
 
-        System.out.println("Agregando registro...");
         this.rows.insert(row.keyAttribute.value, row);
-        System.out.println("\n\n\t.:IMPRIMIENTO REGISTROS ACTUALES:. ");
+        System.out.println("\n\n\t.:IMPRIMIENTO REGISTROS ACTUALES TABLA -> "+tableName+":.");
         this.rows.printRows();
         System.out.println("\n\n.....................");
         return true;
@@ -68,12 +65,12 @@ public class Table {
 
             if(property.propertyName.equals(this.key)){
                 row.keyAttribute = attributeNode.value;
-                System.out.println("Seteando la llave primaria en el registro. "+this.key);
+//                System.out.println("Seteando la llave primaria en el registro. "+this.key);
             }
 
             if(property.propertyType != attributeNode.value.property.propertyType){
-                System.out.println("Los tipos de las propiedades no coinciden: "+property.propertyType + " con: "
-                        +attributeNode.value.property.propertyType);
+//                System.out.println("Los tipos de las propiedades no coinciden: "+property.propertyType + " con: "
+//                        +attributeNode.value.property.propertyType);
                 return false;
             }
 

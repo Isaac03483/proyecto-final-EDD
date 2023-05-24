@@ -54,7 +54,7 @@ public class BPlusTree {
 
 //                    Arrays.sort(leafNode.parent.keys, 0, leafNode.parent.degree);
 
-                    System.out.println("ORDENANDO LLAVES");
+//                    System.out.println("ORDENANDO LLAVES");
                     Sort.sort(leafNode.parent.keys, 0, leafNode.parent.degree, primaryType);
                 }
 
@@ -236,7 +236,7 @@ public class BPlusTree {
         int index;
 
         for(index = 0; index < this.root.degree-1; index++){
-            System.out.println("COMPARANDO FINDLEAF: "+key+". CON: "+keys[index]+". PROPERTY: "+primaryType);
+//            System.out.println("COMPARANDO FINDLEAF: "+key+". CON: "+keys[index]+". PROPERTY: "+primaryType);
             System.out.println(Sort.compare(key,keys[index], primaryType));
             if(Sort.compare(key,keys[index], primaryType)){
 //            if(key.compareTo(keys[index]) < 0){
@@ -266,7 +266,7 @@ public class BPlusTree {
 
         for(index = 0; index < currentNode.degree-1; index++){
 //            if(key.compareTo(keys[index]) < 0) break;
-            System.out.println("COMPARANDO CURRENTNODE: "+key+". CON: "+keys[index]+". PROPERTY: "+primaryType);
+//            System.out.println("COMPARANDO CURRENTNODE: "+key+". CON: "+keys[index]+". PROPERTY: "+primaryType);
             System.out.println(Sort.compare(key,keys[index], primaryType));
 
             if(Sort.compare(key,keys[index], primaryType)) break;
